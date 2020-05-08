@@ -1,4 +1,4 @@
-                     <p><div align="center"> **SARAH - ASSISTENTE VIRTUAL DE RH  **</div></p>
+<p><div align="center">**SARAH - ASSISTENTE VIRTUAL DE RH**</div></p>
 
 
 <p><div align="justify">
@@ -15,8 +15,8 @@ Sarah é uma assistente virtual voltada para funcionalidades de RH, o tema foi de
 <p><div align="left">*Envio de e-mail – Enviará e-mails </div></p>
 <p><div align="left">* Abrir paginas – Ações de abrir paginas dentro do sistema, como por exmplo inclusão de funcionários, pesquisa de funcionários, etc.</div></p>
 <p><div align="left">* Fechar paginas – Fechar as paginas abertas ou voltar uma página.</div></p>
-<p><div align="Center">**Por que a SARAH ?**</div></p>
+<p><div align="Center">**Por que a SARAH?**</div></p>
 
 
-<p><div align="justify">SARAH foi desenvolvida para auxiliar algumas funções que são primordiais na tomada de decisão, fazendo uma junção com a facilidade do programa de abrir e fazer pesquisas por voz, com a análise de dados. Cálculos de verbas rescisórias, cálculo da atualização do dissídio, são tarefas simples, porém que te obrigam a ter um prévio conhecimento das leis trabalhistas. A nossa função é colocar todo esse entendimento a partir de um “Olá Sarah” que te abrirá um leque de opções..</div></p>
+<p><div align="justify">SARAH foi desenvolvida para auxiliar algumas funções que são primordiais na tomada de decisão, fazendo uma junção com a facilidade do programa de abrir e fazer pesquisas por voz, com a análise de dados. Cálculos de verbas rescisórias, cálculo da atualização do dissídio, são tarefas simples, porém que te obrigam a ter um prévio conhecimento das leis trabalhistas. A nossa função é colocar todo esse entendimento a partir de um “Olá Sarah” que te abrirá um leque de opções.</div></p>
 
