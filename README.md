@@ -41,6 +41,6 @@ Sarah é uma assistente virtual voltada para funcionalidades de RH, o tema foi de
 
 <p><div align="center">Prova de conceito (POC)</div></p>
 
-	<p><div align="left">No link abaixo temos um arquivo gravado no repositório do GitHub do projeto,  que foi criado com o intuito de testar a funcionalidade e conhecer melhor a biblioteca speech_recognition.</div></p>
+<p><div align="left">No link abaixo temos um arquivo gravado no repositório do GitHub do projeto,  que foi criado com o intuito de testar a funcionalidade e conhecer melhor a biblioteca speech_recognition.</div></p>
 <p><div align="left">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
 <p><div align="left">O teste	foi realizado obtendo sucesso no seu uso, assim sendo possível a implementação no programa SARAH. No teste armazenamos o que era dito pelo usuário em uma variável para podermos comparar posteriormente com comando pré-estabelecidos, executando assim funções já definidas.</div></p>
