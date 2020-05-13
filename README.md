@@ -27,3 +27,20 @@ Sarah é uma assistente virtual voltada para funcionalidades de RH, o tema foi de
 
 
 <p><div align="justify">SARAH foi desenvolvida para auxiliar algumas funções que são primordiais na tomada de decisão, fazendo uma junção com a facilidade do programa de abrir e fazer pesquisas por voz, com a análise de dados. Cálculos de verbas rescisórias, cálculo da atualização do dissídio, são tarefas simples, porém que te obrigam a ter um prévio conhecimento das leis trabalhistas. A nossa função é colocar todo esse entendimento a partir de um “Olá Sarah” que te abrirá um leque de opções.</div></p>
+
+
+
+<p><div align="Center">*Explicando as funcionalidades escolhidas*</div></p>
+
+<p><div align="left">  O programa conta com funcionalidades como habilitar e desabilitar os comandos por voz, já que o usuário não precisa deixar o aplicativo no modo escuta o tempo todo, pois, pode ocasionar comandos não desejados. Quando habilitada essa função, o usuário pode usar a voz para executar comando pré-estabelecidos para abrir as demais funções que o programa traz. Através do comando por voz acima descrito, o usuário poderá fazer o controle do banco de dados dos funcionários da empresa sendo as funções:</div></p>
+<p><div align="left">- Inclusão ou cadastro: onde será inserido um novo funcionário com seu registro único dentro da empresa;</div></p>
+<p><div align="left">- Pesquisa: Conforme o número de pessoas cadastradas no sistema, cresce de importância uma boa pesquisa com filtragens para acharmos um registro desejado, a função de pesquisa cumprirá com essa demanda;</div></p>
+<p><div align="left">- Alterações: imagine a situação em que o funcionário receba uma promoção e precise alterar suas informações cadastrais, após utilizar da função de pesquisa o empregado é selecionado e tem seu formulário de cadastros habilitado novamente para atualização de seus dados e</div></p>
+<p><div align="left">- Demissão: uma função que caso o contratado seja demitido, calcule os direitos demissionários do mesmo e desative seu registro da empresa.</div></p>
+<p><div align="left">Incluindo também as funções de abrir links uteis, no seu navegador web para consultas, podendo também imprimir paginas de informações, como por exemplo, lista de empregados de um determinado setor da empresa e até mesmo o envio dessas listas por e-mail, ou de outra informação que ache necessário enviar.</div></p>
+
+<p><div align="center">Prova de conceito (POC)</div></p>
+
+	<p><div align="left">No link abaixo temos um arquivo gravado no repositório do GitHub do projeto,  que foi criado com o intuito de testar a funcionalidade e conhecer melhor a biblioteca speech_recognition.</div></p>
+<p><div align="left">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
+<p><div align="left">O teste	foi realizado obtendo sucesso no seu uso, assim sendo possível a implementação no programa SARAH. No teste armazenamos o que era dito pelo usuário em uma variável para podermos comparar posteriormente com comando pré-estabelecidos, executando assim funções já definidas.</div></p>
