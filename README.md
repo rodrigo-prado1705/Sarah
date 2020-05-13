@@ -1,4 +1,4 @@
-** Integrantes **
+**Integrantes**
 * Diego da Silva Xavier
 * Lucas Aparecido Alves da Silva
 * Maximiles Silva Barcelos Ribeiro
