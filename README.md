@@ -20,7 +20,7 @@
 <p><div align="left">• Inclusão de funcionários – Efetuará o cadastro de funcionários;</div></p>
 <p><div align="left">• Pesquisa de funcionários – Mostrará o resultado da pesquisa de funcionarios;</div></p>
 <p><div align="left">• Alteração de Dados – Fará a alteração dos dados do funcionario;</p>
-<p><div align="left">• Demissão de funcionarios - Executará todos os calculos pertinentes a demissão de um funcionário como, calculo de pendências, férias, etc.</div></p>
+<p><div align="left">• Demissão de funcionarios - O registro do funcionário demitido se tornará inativo.</div></p>
 <p><div align="Center"><b>POR QUE A SARAH?</b></div></p>
 
 
