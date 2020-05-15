@@ -4,7 +4,7 @@
 <div align="center">Lucas Aparecido Alves da Silva</div>
 <div align="center">Maximiles Silva Barcelos Ribeiro</div>
 <div align="center">Paulo Messias Soares da Silva</div>
-<div align="center">Rodrigo Am‚ncio do Prado TenÛrio</div>
+<div align="center">Rodrigo Am√¢ncio do Prado Ten√≥rio</div>
 <div align="center">Mateus Costa Luz</div>
 
 
@@ -12,37 +12,31 @@
 <p><div align="center"><b>SARAH - ASSISTENTE VIRTUAL DE RH</b></div></p>
 
 
-<p><div align="justify">Sarah È uma assistente virtual voltada para funcionalidades de RH, o tema foi definido de acordo com as funÁıes que acreditamos ser relevantes para o curso, como uma busca em um banco de dados ou simplesmente c·lculos rescisÛrios dos quais utilizamos lÛgica de programaÁ„o.</div><p>
-<p><div align="justify">A linguagem escolhida foi Python, È a linguagem que ser· ensinada no primeiro semestre ent„o conseguiremos avanÁar tanto no projeto quanto na linguagem em si. Utilizaremos tambem um banco de dados em  SQLite, pois, o mesmo j· È nativo do python. Para exibiÁ„o dos formularios e inerface, podemos utilizar de duas  linguagens, sendo elas a FLASK e o DJANGO, ainda a ser definido. A aplicaÁ„o ser· um controle de funcionarios tendo aÁıes que poder„o ser executadas atravÈs de comando de voz.</div></p>
-<p><div align="left"> As seguintes aÁıes ser„o chamadas atravÈs de comando de voz (ainda n„o definidos pelo grupo):</div></p>
-<p><div align="left">ï Habilitar SARAH por voz - Habilitar· o modo escuta do programa;</div></p>
-<p><div align="left">ï Desabilitar SARAH por voz ñ Desabilitar· o modo escuta do programa;</div></p>
-<p><div align="left">ï Inclus„o de funcion·rios ñ Efetuar· o cadastro de funcion·rios;</div></p>
-<p><div align="left">ï Pesquisa de funcion·rios ñ Mostrar· o resultado da pesquisa de funcionarios;</div></p>
-<p><div align="left">ï AlteraÁ„o de Dados ñ Far· a alteraÁ„o dos dados do funcionario;</p>
-<p><div align="left">ï Demiss„o de funcionarios - Executar· todos os calculos pertinentes a demiss„o de um funcion·rio como, calculo de pendÍncias, fÈrias, etc;</div></p>
-<p><div align="left">ï Impress„o de p·ginas ñ Imprime a pagina aberta;</div></p>
-<p><div align="left">ï Envio de e-mail ñ Enviar· e-mails;</div></p>
-<p><div align="left">ï Abrir paginas ñ AÁıes de abrir paginas dentro do sistema, como por exmplo inclus„o de funcion·rios, pesquisa de funcion·rios, etc. e</div></p>
-<p><div align="left">ï Fechar paginas ñ Fechar as paginas abertas ou voltar uma p·gina.</div></p>
+<p><div align="justify">Sarah √© uma assistente virtual voltada para funcionalidades de RH, o tema foi definido de acordo com as fun√ß√µes que acreditamos ser relevantes para o curso, como uma busca em um banco de dados ou simplesmente c√°lculos rescis√≥rios dos quais utilizamos l√≥gica de programa√ß√£o.</div><p>
+<p><div align="justify">A linguagem escolhida foi Python, √© a linguagem que ser√° ensinada no primeiro semestre ent√£o conseguiremos avan√ßar tanto no projeto quanto na linguagem em si. Utilizaremos tambem um banco de dados em  SQLite, pois, o mesmo j√° √© nativo do python. Para exibi√ß√£o dos formularios e interface, podemos utilizar de duas  linguagens, sendo elas a FLASK e o DJANGO, ainda a ser definido. A aplica√ß√£o ser√° um controle de funcionarios tendo a√ß√µes que poder√£o ser executadas atrav√©s de comando de voz.</div></p>
+<p><div align="left"> As seguintes a√ß√µes ser√£o chamadas atrav√©s de comando de voz (ainda n√£o definidos pelo grupo):</div></p>
+<p><div align="left">‚Ä¢ Habilitar SARAH por voz - Habilitar√° o modo escuta do programa;</div></p>
+<p><div align="left">‚Ä¢ Desabilitar SARAH por voz ‚Äì Desabilitar√° o modo escuta do programa;</div></p>
+<p><div align="left">‚Ä¢ Inclus√£o de funcion√°rios ‚Äì Efetuar√° o cadastro de funcion√°rios;</div></p>
+<p><div align="left">‚Ä¢ Pesquisa de funcion√°rios ‚Äì Mostrar√° o resultado da pesquisa de funcionarios;</div></p>
+<p><div align="left">‚Ä¢ Altera√ß√£o de Dados ‚Äì Far√° a altera√ß√£o dos dados do funcionario;</p>
+<p><div align="left">‚Ä¢ Demiss√£o de funcionarios - Executar√° todos os calculos pertinentes a demiss√£o de um funcion√°rio como, calculo de pend√™ncias, f√©rias, etc.</div></p>
 <p><div align="Center"><b>POR QUE A SARAH?</b></div></p>
 
 
-<p><div align="justify">SARAH foi desenvolvida para auxiliar algumas funÁıes que s„o primordiais na tomada de decis„o, fazendo uma junÁ„o com a facilidade do programa de abrir e fazer pesquisas por voz, com a an·lise de dados. C·lculos de verbas rescisÛrias, c·lculo da atualizaÁ„o do dissÌdio, s„o tarefas simples, porÈm que te obrigam a ter um prÈvio conhecimento das leis trabalhistas. A nossa funÁ„o È colocar todo esse entendimento a partir de um ìOl· Sarahî que te abrir· um leque de opÁıes.</div></p>
+<p><div align="justify">SARAH foi desenvolvida para auxiliar algumas fun√ß√µes que s√£o primordiais na tomada de decis√£o, fazendo uma jun√ß√£o com a facilidade do programa de abrir e fazer pesquisas por voz, com a an√°lise de dados. C√°lculos de verbas rescis√≥rias, c√°lculo da atualiza√ß√£o do diss√≠dio, s√£o tarefas simples, por√©m que te obrigam a ter um pr√©vio conhecimento das leis trabalhistas. A nossa fun√ß√£o √© colocar todo esse entendimento a partir de um ‚ÄúOl√° Sarah‚Äù que te abrir√° um leque de op√ß√µes.</div></p>
 
 
 
 <p><div align="Center"><b>EXPLICANDO AS FUNCIONALIDADES ESCOLHIDAS</b></div></p>
 
-<p><div align="justify">O programa conta com funcionalidades como habilitar e desabilitar os comandos por voz, j· que o usu·rio n„o precisa deixar o aplicativo no modo escuta o tempo todo, pois, pode ocasionar comandos n„o desejados. Quando habilitada essa funÁ„o, o usu·rio pode usar a voz para executar comando prÈ-estabelecidos para abrir as demais funÁıes que o programa traz. AtravÈs do comando por voz acima descrito, o usu·rio poder· fazer o controle do banco de dados dos funcion·rios da empresa sendo as funÁıes:</div></p>
-<p><div align="justify">ï Inclus„o ou cadastro onde ser· inserido um novo funcion·rio com seu registro ˙nico dentro da empresa;</div></p>
-<p><div align="justify">ï Pesquisa: Conforme o n˙mero de pessoas cadastradas no sistema, cresce de import‚ncia uma boa pesquisa com filtragens para acharmos um registro desejado, a funÁ„o de pesquisa cumprir· com essa demanda;</div></p>
-<p><div align="justify">ï AlteraÁıes: imagine a situaÁ„o em que o funcion·rio receba uma promoÁ„o e precise alterar suas informaÁıes cadastrais, apÛs utilizar da funÁ„o de pesquisa o empregado È selecionado e tem seu formul·rio de cadastros habilitado novamente para atualizaÁ„o de seus dados;</div></p>
-<p><div align="justify">ï Demiss„o: uma funÁ„o que caso o contratado seja demitido, calcule os direitos demission·rios do mesmo e desative seu registro da empresa e</div></p>
-<p><div align="justify">ï Incluindo tambÈm as funÁıes de abrir links uteis, no seu navegador web para consultas, podendo tambÈm imprimir paginas de informaÁıes, como por exemplo, lista de empregados de um determinado setor da empresa e atÈ mesmo o envio dessas listas por e-mail, ou de outra informaÁ„o que ache necess·rio enviar.</div></p>
-
+<p><div align="justify">O programa conta com funcionalidades como habilitar e desabilitar os comandos por voz, j√° que o usu√°rio n√£o precisa deixar o aplicativo no modo escuta o tempo todo, pois, pode ocasionar comandos n√£o desejados. Quando habilitada essa fun√ß√£o, o usu√°rio pode usar a voz para executar comando pr√©-estabelecidos para abrir as demais fun√ß√µes que o programa traz. Atrav√©s do comando por voz acima descrito, o usu√°rio poder√° fazer o controle do banco de dados dos funcion√°rios da empresa sendo as fun√ß√µes:</div></p>
+<p><div align="justify">‚Ä¢ Inclus√£o ou cadastro onde ser√° inserido um novo funcion√°rio com seu registro √∫nico dentro da empresa;</div></p>
+<p><div align="justify">‚Ä¢ Pesquisa: Conforme o n√∫mero de pessoas cadastradas no sistema, cresce de import√¢ncia uma boa pesquisa com filtragens para acharmos um registro desejado, a fun√ß√£o de pesquisa cumprir√° com essa demanda;</div></p>
+<p><div align="justify">‚Ä¢ Altera√ß√µes: imagine a situa√ß√£o em que o funcion√°rio receba uma promo√ß√£o e precise alterar suas informa√ß√µes cadastrais, ap√≥s utilizar da fun√ß√£o de pesquisa o empregado √© selecionado e tem seu formul√°rio de cadastros habilitado novamente para atualiza√ß√£o de seus dados;</div></p>
+<p><div align="justify">‚Ä¢ Demiss√£o: uma fun√ß√£o que caso o contratado seja demitido, seu registro se torne inativo.</div></p>
 <p><div align="center"><b>PROVA DE CONCEITO (POC)</b></div></p>
 
-<p><div align="justify">No link abaixo temos um arquivo gravado no repositÛrio do GitHub do projeto,  que foi criado com o intuito de testar a funcionalidade e conhecer melhor a biblioteca speech_recognition.</div></p>
+<p><div align="justify">No link abaixo temos um arquivo gravado no reposit√≥rio do GitHub do projeto,  que foi criado com o intuito de testar a funcionalidade e conhecer melhor a biblioteca speech_recognition.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
-<p><div align="justify">O teste foi realizado obtendo sucesso no seu uso, assim sendo possÌvel a implementaÁ„o no programa SARAH. No teste armazenamos o que era dito pelo usu·rio em uma vari·vel para podermos comparar posteriormente com comando prÈ-estabelecidos, executando assim funÁıes j· definidas.</div></p>
+<p><div align="justify">O teste foi realizado obtendo sucesso no seu uso, assim sendo poss√≠vel a implementa√ß√£o no programa SARAH. No teste armazenamos o que era dito pelo usu√°rio em uma vari√°vel para podermos comparar posteriormente com comando pr√©-estabelecidos, executando assim fun√ß√µes j√° definidas.</div></p>
