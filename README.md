@@ -40,3 +40,8 @@
 <p><div align="justify">No link abaixo temos um arquivo gravado no repositório do GitHub do projeto,  que foi criado com o intuito de testar a funcionalidade e conhecer melhor a biblioteca speech_recognition.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
 <p><div align="justify">O teste foi realizado obtendo sucesso no seu uso, assim sendo possível a implementação no programa SARAH. No teste armazenamos o que era dito pelo usuário em uma variável para podermos comparar posteriormente com comando pré-estabelecidos, executando assim funções já definidas.</div></p>
+
+<p><div align="center"><b>Apresentações</b></div></p>
+
+<p><div align="justify">No link abaixo temos um arquivo em vídeo no repositório do GitHub do projeto, com as apresentações das entregas</div></p>
+<p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
