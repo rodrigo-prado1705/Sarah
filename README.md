@@ -43,5 +43,5 @@
 
 <p><div align="center"><b>APRESENTAÇÕES</b></div></p>
 
-<p><div align="justify">No link abaixo temos um arquivo em vídeo no repositório do GitHub do projeto, com as apresentações das entregas</div></p>
+<p><div align="justify">No link abaixo temos um arquivo em vídeo no repositório do GitHub do projeto, com as apresentações das entregas.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
