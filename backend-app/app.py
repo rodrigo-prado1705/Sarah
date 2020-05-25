@@ -1,3 +1,4 @@
+import sys
 import speech_recognition as sr
 
 
@@ -9,16 +10,18 @@ def functionSwitcher(argument):
     }
 
     for key, value in switcher.items():
-        if argument == value:
+        if str(argument).lower() == value.lower():
             return key, value
+        elif str(argument).lower() == "desabilitar sara":
+            sys.exit()
 
-    return "Function not yet implemented"
+    return "Function not yet implemented\n"
 
 
 def listenSpeech():
     r = sr.Recognizer()
     with sr.Microphone() as source:
-        r.pause_threshold = 0.7
+        r.pause_threshold = 1
         r.adjust_for_ambient_noise(source, duration=1)
         print('Say something...')
         audio = r.listen(source)
