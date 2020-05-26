@@ -45,3 +45,8 @@
 
 <p><div align="justify">No link abaixo temos um arquivo em vídeo no repositório do GitHub do projeto, com as apresentações das entregas.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/apresentacoes</div></p>
+
+<p><div align="center"><b>3ª ENTREGA</b></div></p>
+<p><div align="justify">Neste ponto da trajetória do projeto obtivemos sucesso ao implementar o comando por voz, utilizando como base a Prova de Conceito realizada no começo deste trabalho. Houve a remoção da função “Habilitar SARAH”, pois conforme testado pelos integrantes do grupo, não foi encontrada uma utilização funcional ou mesmo aplicável ao aplicativo, visto que SARAH estará sempre habilitada escutando os comandos ditos pelo usuário.</div></p>
+<p><div align="justify">No arquivo que pode ser encontrado no link https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/app.py pode-se encontrar a função “Desabilitar SARAH” já implementada, onde o usuário ao dizer a frase, Desabilitar SARAH, fará com que o programa encerre, ou seja, SARAH será finalizado.</div></p>
+
