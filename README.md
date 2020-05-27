@@ -9,13 +9,12 @@
 
 
 
-<p><div align="center"><b>SARAH - ASSISTENTE VIRTUAL DE RH</b></div></p>
+<p><div align="center"><b>SARAH - 1º ENTREGA - ASSISTENTE VIRTUAL DE RH </b></div></p>
 
 
 <p><div align="justify">Sarah é uma assistente virtual voltada para funcionalidades de RH, o tema foi definido de acordo com as funções que acreditamos ser relevantes para o curso, como uma busca em um banco de dados ou simplesmente cálculos rescisórios dos quais utilizamos lógica de programação.</div><p>
 <p><div align="justify">A linguagem escolhida foi Python, é a linguagem que será ensinada no primeiro semestre então conseguiremos avançar tanto no projeto quanto na linguagem em si. Utilizaremos tambem um banco de dados em  SQLite, pois, o mesmo já é nativo do python. Para exibição dos formularios e interface, podemos utilizar de duas  linguagens, sendo elas a FLASK e o DJANGO, ainda a ser definido. A aplicação será um controle de funcionarios tendo ações que poderão ser executadas através de comando de voz.</div></p>
 <p><div align="left"> As seguintes ações serão chamadas através de comando de voz (ainda não definidos pelo grupo):</div></p>
-<p><div align="left">• Habilitar SARAH por voz - Habilitará o modo escuta do programa;</div></p>
 <p><div align="left">• Desabilitar SARAH por voz – Desabilitará o modo escuta do programa;</div></p>
 <p><div align="left">• Inclusão de funcionários – Efetuará o cadastro de funcionários;</div></p>
 <p><div align="left">• Pesquisa de funcionários – Mostrará o resultado da pesquisa de funcionarios;</div></p>
@@ -27,10 +26,9 @@
 <p><div align="justify">SARAH foi desenvolvida para auxiliar algumas funções que são primordiais na tomada de decisão, fazendo uma junção com a facilidade do programa de abrir e fazer pesquisas por voz, com a análise de dados. Cálculos de verbas rescisórias, cálculo da atualização do dissídio, são tarefas simples, porém que te obrigam a ter um prévio conhecimento das leis trabalhistas. A nossa função é colocar todo esse entendimento a partir de um “Olá Sarah” que te abrirá um leque de opções.</div></p>
 
 
+<p><div align="Center"><b>2ªENTREGA - EXPLICANDO AS FUNCIONALIDADES ESCOLHIDAS</b></div></p>
 
-<p><div align="Center"><b>EXPLICANDO AS FUNCIONALIDADES ESCOLHIDAS</b></div></p>
-
-<p><div align="justify">O programa conta com funcionalidades como habilitar e desabilitar os comandos por voz, já que o usuário não precisa deixar o aplicativo no modo escuta o tempo todo, pois, pode ocasionar comandos não desejados. Quando habilitada essa função, o usuário pode usar a voz para executar comando pré-estabelecidos para abrir as demais funções que o programa traz. Através do comando por voz acima descrito, o usuário poderá fazer o controle do banco de dados dos funcionários da empresa sendo as funções:</div></p>
+<p><div align="justify">O programa conta com funcionalidade desabilitar este comando será por voz,  o usuário  precisa deixar o aplicativo no modo escuta o tempo todo, para ativação do desabilitar, habilitada essa função, o usuário poderá usar a voz para executar comando de fechamento total da SARAH.</div></p>
 <p><div align="justify">• Inclusão ou cadastro onde será inserido um novo funcionário com seu registro único dentro da empresa;</div></p>
 <p><div align="justify">• Pesquisa: Conforme o número de pessoas cadastradas no sistema, cresce de importância uma boa pesquisa com filtragens para acharmos um registro desejado, a função de pesquisa cumprirá com essa demanda;</div></p>
 <p><div align="justify">• Alterações: imagine a situação em que o funcionário receba uma promoção e precise alterar suas informações cadastrais, após utilizar da função de pesquisa o empregado é selecionado e tem seu formulário de cadastros habilitado novamente para atualização de seus dados;</div></p>
@@ -41,16 +39,12 @@
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
 <p><div align="justify">O teste foi realizado obtendo sucesso no seu uso, assim sendo possível a implementação no programa SARAH. No teste armazenamos o que era dito pelo usuário em uma variável para podermos comparar posteriormente com comando pré-estabelecidos, executando assim funções já definidas.</div></p>
 
+<p><div align="center"><b>3ª ENTREGA -IMPLEMENTAÇÃO DAS FUNCIONALIDADES</b></div></p>
+<p><div align="justify">Neste ponto da trajetória do projeto obtivemos sucesso ao implementar o comando por voz, utilizando como base a Prova de Conceito realizada no começo deste trabalho. Houve a remoção da função “Habilitar SARAH”, pois conforme testado pelos integrantes do grupo, não foi encontrada uma utilização funcional ou mesmo aplicável ao aplicativo, visto que SARAH estará sempre habilitada escutando os comandos ditos pelo usuário.</div></p>
+<p><div align="justify">No arquivo que pode ser encontrado no link https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/app.py pode-se encontrar a função “Desabilitar SARAH” já implementada, onde o usuário ao dizer a frase, Desabilitar SARAH, fará com que o programa encerre, ou seja, SARAH será finalizado.</div></p>
+<p><div align="justify">Estas ideias e alterações foram realizadas em reunião gravada com os integrantes e supervisionada pelo Master do grupo. A gravação desta reunião pode ser acessada através do link https://github.com/rodrigo-prado1705/Sarah/blob/master/apresentacoes/2020-05-22.mp4.. </div></p>
+
 <p><div align="center"><b>APRESENTAÇÕES</b></div></p>
 
 <p><div align="justify">No link abaixo temos um arquivo em vídeo no repositório do GitHub do projeto, com as apresentações das entregas.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/apresentacoes</div></p>
-
-<p><div align="center"><b>3ª ENTREGA</b></div></p>
-<p><div align="justify">Neste ponto da trajetória do projeto obtivemos sucesso ao implementar o comando por voz, utilizando como base a Prova de Conceito realizada no começo deste trabalho. Houve a remoção da função “Habilitar SARAH”, pois conforme testado pelos integrantes do grupo, não foi encontrada uma utilização funcional ou mesmo aplicável ao aplicativo, visto que SARAH estará sempre habilitada escutando os comandos ditos pelo usuário.</div></p>
-<p><div align="justify">No arquivo que pode ser encontrado no link https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/app.py pode-se encontrar a função “Desabilitar SARAH” já implementada, onde o usuário ao dizer a frase, Desabilitar SARAH, fará com que o programa encerre, ou seja, SARAH será finalizado.</div></p>
-
-
-Estas ideias e alterações foram realizadas em reunião gravada com os integrantes e supervisionada pelo Master do grupo. A gravação desta reunião pode ser acessada através do link https://github.com/rodrigo-prado1705/Sarah/blob/master/apresentacoes/2020-05-22.mp4.
-
-
