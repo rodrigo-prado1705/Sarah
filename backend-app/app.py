@@ -12,7 +12,7 @@ def inserir_funcionarios():
     with sr.Microphone() as source:
         r.pause_threshold = 1
         r.adjust_for_ambient_noise(source, duration=1)
-        print('Digite o nome do funcionário: ')
+        print('Diga o nome do funcionário: ')
         audio = r.listen(source)
         try:
             func_nome = r.recognize_google(audio, language='pt-BR')
@@ -21,7 +21,10 @@ def inserir_funcionarios():
             print('Não entendi o que você disse, repita por favor.\n')
             func_nome = listenSpeech()
 
-        print('Digite o cargo do funcionário: ')
+        print('Diga um cargo listado para o funcionário: ')
+        cursor.execute(""" SELECT cargos_nome FROM cargos ORDER BY cargos_nome; """)
+        for linha in cursor.fetchall():
+            print(linha)
         audio = r.listen(source)
         try:
             func_cargo = r.recognize_google(audio, language='pt-BR')
@@ -30,7 +33,7 @@ def inserir_funcionarios():
             print('Não entendi o que você disse, repita por favor.\n')
             func_cargo = listenSpeech()
 
-        print('Digite o salário do funcionário: ')
+        print('Diga o salário do funcionário: ')
         audio = r.listen(source)
         try:
             func_salario = r.recognize_google(audio, language='pt-BR')
@@ -39,7 +42,7 @@ def inserir_funcionarios():
             print('Não entendi o que você disse, repita por favor.\n')
             func_salario = listenSpeech()
 
-        print('Você confirma esses dados? ')
+        print('Você confirma esses dados sim ou não ?')
         audio = r.listen(source)
         try:
             confirmacao = r.recognize_google(audio, language='pt-BR')
@@ -59,6 +62,7 @@ def inserir_funcionarios():
         conn.commit()
         print('Dados inseridos com sucesso.')
         conn.close()
+
     else:
         print('Dados não inseridos !')
         return
@@ -69,47 +73,70 @@ def inserir_cargo():
     ## Criando um cursor, utilizado para executar as funções do banco
     cursor = conn.cursor()
 
-    print("Vamos cadastrar um novo cargo: ")
-    cargo_nome = input("Digite o cargo: ")
-    confirmacao = input("Você confirma esses dados? ")
+    ##print("Vamos cadastrar um novo cargo: ")
+
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        r.pause_threshold = 1
+        r.adjust_for_ambient_noise(source, duration=1)
+        print('Diga o nome do cargo: ')
+        audio = r.listen(source)
+        try:
+            cargo_nome = r.recognize_google(audio, language='pt-BR')
+            print('Você Disse: {0}\n'.format(cargo_nome))
+        except sr.UnknownValueError:
+            print('Não entendi o que você disse, repita por favor.\n')
+            cargo_nome = listenSpeech()
+
+        print('Você confirma esses dados sim ou não ?')
+        audio = r.listen(source)
+        try:
+            confirmacao = r.recognize_google(audio, language='pt-BR')
+            print('Você Disse: {0}\n'.format(confirmacao))
+        except sr.UnknownValueError:
+            print('Não entendi o que você disse, repita por favor.\n')
+            confirmacao = listenSpeech()
 
     if confirmacao == "sim":
 
-        cursor.execute("""INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
-
+        cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
         conn.commit()
         print('Dados inseridos com sucesso.')
         conn.close()
+
     else:
         print('Dados não inseridos !')
         return
 
 def functionSwitcher(argument):
-    switcher = {
-        1: "Bom dia",
-        2: "Boa tarde",
-        3: "Boa noite"
-    }
 
-    for key, value in switcher.items():
-        if str(argument).lower() == value.lower():
-            return key, value
-        elif str(argument).lower() == "cadastrar funcionário":
-            inserir_funcionarios()
-        elif str(argument).lower() == "cadastrar cargo":
-            inserir_cargo()
-        elif str(argument).lower() == "desabilitar sara":
-            sys.exit()
+    if str(argument).lower() == "cadastrar funcionário":
+        inserir_funcionarios()
+    elif str(argument).lower() == "cadastrar cargo":
+        inserir_cargo()
+    elif str(argument).lower() == "desabilitar sara":
+        sys.exit()
 
-    return "Função Não Implementada\n"
+    ##return "Função Não Implementada\n"
 
 
 def listenSpeech():
+
+    print("MENU PRINCIPAL SARAH")
+    print('_' * 42)
+    print('Olá, sou a SARAH, sua assistente de RH!')
+    print('_' * 42)
+    print('Diga, o que você deseja fazer?')
+    print('1 - Cadastrar funcionarios')
+    print('2 - Pesquisar funcionario')
+    print('3 - Cadastrar Cargo')
+    print('4 - Desabilitar SARAH')
+
     r = sr.Recognizer()
     with sr.Microphone() as source:
         r.pause_threshold = 1
         r.adjust_for_ambient_noise(source, duration=1)
-        print('Diga Algo: ')
+        print('Diga o que você deseja fazer: ')
         audio = r.listen(source)
         print('Processando...\n')
     try:
@@ -125,6 +152,5 @@ def listenSpeech():
 
 while True:
     answer = listenSpeech()
-
     print(functionSwitcher(answer))
 pass
