@@ -1,6 +1,5 @@
 <p><div align="center"><b>INTEGRANTES</b></div></p>
 
-<div align="center">Diego da Silva Xavier</div>
 <div align="center">Lucas Aparecido Alves da Silva</div>
 <div align="center">Maximiles Silva Barcelos Ribeiro</div>
 <div align="center">Paulo Messias Soares da Silva</div>
@@ -9,7 +8,7 @@
 
 
 
-<p><div align="center"><b>1ºENTREGA SARAH - ASSISTENTE VIRTUAL DE RH </b></div></p>
+<p><div align="center"><b>1º ENTREGA - SARAH - ASSISTENTE VIRTUAL DE RH </b></div></p>
 
 
 <p><div align="justify">Sarah é uma assistente virtual voltada para funcionalidades de RH, o tema foi definido de acordo com as funções que acreditamos ser relevantes para o curso, como uma busca em um banco de dados ou simplesmente cálculos rescisórios dos quais utilizamos lógica de programação.</div><p>
@@ -26,7 +25,7 @@
 <p><div align="justify">SARAH foi desenvolvida para auxiliar algumas funções que são primordiais na tomada de decisão, fazendo uma junção com a facilidade do programa de abrir e fazer pesquisas por voz, com a análise de dados. Cálculos de verbas rescisórias, cálculo da atualização do dissídio, são tarefas simples, porém que te obrigam a ter um prévio conhecimento das leis trabalhistas. A nossa função é colocar todo esse entendimento a partir de um “Olá Sarah” que te abrirá um leque de opções.</div></p>
 
 
-<p><div align="Center"><b>2ªENTREGA - EXPLICANDO AS FUNCIONALIDADES ESCOLHIDAS</b></div></p>
+<p><div align="Center"><b>2ª ENTREGA - EXPLICANDO AS FUNCIONALIDADES ESCOLHIDAS</b></div></p>
 
 <p><div align="justify">O programa conta com funcionalidade desabilitar este comando será por voz,  o usuário  precisa deixar o aplicativo no modo escuta o tempo todo, para ativação do desabilitar, habilitada essa função, o usuário poderá usar a voz para executar comando de fechamento total da SARAH.</div></p>
 <p><div align="justify">• Inclusão ou cadastro onde será inserido um novo funcionário com seu registro único dentro da empresa;</div></p>
@@ -39,11 +38,22 @@
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/backend-app</div></p>
 <p><div align="justify">O teste foi realizado obtendo sucesso no seu uso, assim sendo possível a implementação no programa SARAH.No teste armazenamos o que era dito pelo usuário em uma variável para podermos comparar posteriormente com comando pré-estabelecidos, executando assim funções já definidas.</div></p>
 
-<p><div align="center"><b>3ªENTREGA -IMPLEMENTAÇÃO DAS FUNCIONALIDADES</b></div></p>
+<p><div align="center"><b>3ª ENTREGA -IMPLEMENTAÇÃO DAS FUNCIONALIDADES</b></div></p>
 <p><div align="justify">Neste ponto da trajetória do projeto obtivemos sucesso ao implementar o comando por voz, utilizando como base a Prova de Conceito realizada no começo deste trabalho. Houve a remoção da função “Habilitar SARAH”, pois conforme testado pelos integrantes do grupo, não foi encontrada uma utilização funcional ou mesmo aplicável ao aplicativo, visto que SARAH estará sempre habilitada escutando os comandos ditos pelo usuário.</div></p>
 <p><div align="justify">No arquivo que pode ser encontrado no link https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/app.py pode-se encontrar a função “Desabilitar SARAH” já implementada, onde o usuário ao dizer a frase, Desabilitar SARAH, fará com que o programa encerre, ou seja, SARAH será finalizado.</div></p>
 <p><div align="justify">Estas ideias e alterações foram realizadas em reunião gravada com os integrantes e supervisionada pelo Master do grupo. A gravação desta reunião pode ser acessada através do link.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/blob/master/apresentacoes/2020-05-22.mp4..</div></p>
+
+4ª ENTREGA - IMPLEMENTAÇÃO DA FUNCIONALIDADE "CADASTRAR FUNCIONÁRIO"
+
+Nesta entrega decidimos utilizar o banco de dados, através do SQLite, para garantir a permanência dos dados quando a Sarah for desabilitada, tornando possível o acesso ao que foi previamente cadastrado.
+O código foi implementado no arquivo base do projeto, que pode ser encontrado em: https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/functions_database.py 
+O arquivo do banco de dados pode ser encontrado em: https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/database.db 
+Também criamos um menu para otimizar a interação do usuário com a Sarah, que pode ser visto em: https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/menu.py 
+Todas as funcionalidades foram implementadas no arquivo base do projeto, visto no link: https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/app.py 
+O usuário pode solicitar à Sarah o cadastro de um funcionário, passando os campos por voz.
+
+
 
 <p><div align="center"><b>APRESENTAÇÕES</b></div></p>
 
