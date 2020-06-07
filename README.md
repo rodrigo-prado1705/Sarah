@@ -54,6 +54,8 @@
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/menu.py</div></p>
 <p><div align="justify">Todas as funcionalidades foram implementadas no arquivo base do projeto, visto no link:</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/blob/master/backend-app/app.py</div></p>
+<p><div align="justify"> A demonstração da funcionalidade implementada que pode ser encontrada no link:</div></p>
+<p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/blob/master/apresentacoes/2020-06-05.mp4</div></p>
 
 
 
@@ -61,4 +63,4 @@
 
 <p><div align="justify">No link abaixo temos um arquivo em vídeo no repositório do GitHub do projeto, com as apresentações das entregas.</div></p>
 <p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/tree/master/apresentacoes</div></p>
-<p><div align="justify">https://github.com/rodrigo-prado1705/Sarah/blob/master/apresentacoes/2020-06-05.mp4</div></p>
+
