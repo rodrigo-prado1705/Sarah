@@ -3,7 +3,6 @@ import os
 import inspect
 import speech_recognition as sr
 import sqlite3
-from subprocess import call
 from time import sleep
 
 r = sr.Recognizer()
@@ -56,6 +55,285 @@ def inserir_funcionarios():
     conn.close()
     return
 
+def pesquisar_funcionario():
+    ## Realizando a conexão com o banco
+    conn = sqlite3.connect('database.db')
+    ## Criando um cursor, utilizado para executar as funções do banco
+    cursor = conn.cursor()
+
+    print("MENU DE PESQUISA DE FUNCIONÁRIOS")
+    print('_' * 42)
+    print('Diga de que forma deseja filtrar sua pesquisa: ')
+    print('_' * 42)
+    print('1 - Matrícula ')
+    print('2 - Nome')
+    print('3 - Cargo')
+    print('4 - Inativos')
+
+    r = sr.Recognizer()
+    with sr.Microphone() as source:
+        r.pause_threshold = 1
+        r.adjust_for_ambient_noise(source, duration=1)
+        print('Diga o filtro desejado: ')
+        audio = r.listen(source)
+        try:
+            filtro = r.recognize_google(audio, language='pt-BR')
+            print('Você Disse: {0}\n'.format(filtro))
+        except sr.UnknownValueError:
+            print('Não entendi o que você disse, repita por favor.\n')
+            filtro = listenSpeech()
+
+    if filtro == "matrícula":
+
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.pause_threshold = 1
+            r.adjust_for_ambient_noise(source, duration=1)
+            print('Diga o numero da matricula: ')
+            audio = r.listen(source)
+            try:
+                matricula = r.recognize_google(audio, language='pt-BR')
+                print('Você Disse: {0}\n'.format(matricula))
+            except sr.UnknownValueError:
+                print('Não entendi o que você disse, repita por favor.\n')
+                matricula = listenSpeech()
+
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
+        ##print(sql)
+        cursor.execute(sql)
+        cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
+        print(cabecalho)
+
+        for linha in cursor.fetchall():
+            if linha == None:
+                break
+            else:
+                linha = str(linha)
+                linha = linha.replace(")", "")
+                linha = linha.replace("(", "")
+                linha = linha.replace("'", "")
+                linha = linha.split(', ')
+
+                #print(linha)
+
+                matricula = len(linha[0])
+                nome = len(linha[1])
+                cargo = len(linha[2])
+                salario = len(linha[3])
+                situacao = len(linha[4])
+
+                if matricula < 10:
+                    linha[0] = linha[0] + (10-matricula) * " "
+                else:
+                    linha[0] = linha[0][0:9]
+                if nome < 40:
+                    linha[1] = linha[1] + (40-nome) * " "
+                else:
+                    linha[1] = linha[1][0:39]
+                if cargo < 20:
+                    linha[2] = linha[2] + (20-cargo) * " "
+                else:
+                    linha[2] = linha[2][0:19]
+                if salario < 10:
+                    linha[3] = linha[3] + (10-matricula) * " "
+                else:
+                    linha[3] = linha[3][0:9]
+                if situacao < 10:
+                    linha[4] = linha[4] + (10-situacao) * " "
+                else:
+                    linha[4] = linha[4][0:9]
+
+                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                print(linha)
+
+        conn.close()
+
+    if filtro == "nome":
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.pause_threshold = 1
+            r.adjust_for_ambient_noise(source, duration=1)
+            print('Diga o nome do funcionário: ')
+            audio = r.listen(source)
+            try:
+                nome = r.recognize_google(audio, language='pt-BR')
+                print('Você Disse: {0}\n'.format(nome))
+            except sr.UnknownValueError:
+                print('Não entendi o que você disse, repita por favor.\n')
+                nome = listenSpeech()
+
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_nome LIKE '%" + nome + "%' ;")
+        cursor.execute(sql)
+        cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
+        print(cabecalho)
+
+        for linha in cursor.fetchall():
+            if linha == None:
+                break
+            else:
+                linha = str(linha)
+                linha = linha.replace(")", "")
+                linha = linha.replace("(", "")
+                linha = linha.replace("'", "")
+                linha = linha.split(', ')
+
+                # print(linha)
+
+                matricula = len(linha[0])
+                nome = len(linha[1])
+                cargo = len(linha[2])
+                salario = len(linha[3])
+                situacao = len(linha[4])
+
+                if matricula < 10:
+                    linha[0] = linha[0] + (10 - matricula) * " "
+                else:
+                    linha[0] = linha[0][0:9]
+                if nome < 40:
+                    linha[1] = linha[1] + (40 - nome) * " "
+                else:
+                    linha[1] = linha[1][0:39]
+                if cargo < 20:
+                    linha[2] = linha[2] + (20 - cargo) * " "
+                else:
+                    linha[2] = linha[2][0:19]
+                if salario < 10:
+                    linha[3] = linha[3] + (10 - matricula) * " "
+                else:
+                    linha[3] = linha[3][0:9]
+                if situacao < 10:
+                    linha[4] = linha[4] + (10 - situacao) * " "
+                else:
+                    linha[4] = linha[4][0:9]
+
+                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                print(linha)
+
+        conn.close()
+
+    if filtro == "cargo":
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.pause_threshold = 1
+            r.adjust_for_ambient_noise(source, duration=1)
+            print('Diga o cargo: ')
+            audio = r.listen(source)
+            try:
+                cargo = r.recognize_google(audio, language='pt-BR')
+                print('Você Disse: {0}\n'.format(cargo))
+            except sr.UnknownValueError:
+                print('Não entendi o que você disse, repita por favor.\n')
+                cargo = listenSpeech()
+
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_cargo = '" + cargo + "';")
+        cursor.execute(sql)
+        cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
+        print(cabecalho)
+
+        for linha in cursor.fetchall():
+            if linha == None:
+                break
+            else:
+                linha = str(linha)
+                linha = linha.replace(")", "")
+                linha = linha.replace("(", "")
+                linha = linha.replace("'", "")
+                linha = linha.split(', ')
+
+                # print(linha)
+
+                matricula = len(linha[0])
+                nome = len(linha[1])
+                cargo = len(linha[2])
+                salario = len(linha[3])
+                situacao = len(linha[4])
+
+                if matricula < 10:
+                    linha[0] = linha[0] + (10 - matricula) * " "
+                else:
+                    linha[0] = linha[0][0:9]
+                if nome < 40:
+                    linha[1] = linha[1] + (40 - nome) * " "
+                else:
+                    linha[1] = linha[1][0:39]
+                if cargo < 20:
+                    linha[2] = linha[2] + (20 - cargo) * " "
+                else:
+                    linha[2] = linha[2][0:19]
+                if salario < 10:
+                    linha[3] = linha[3] + (10 - matricula) * " "
+                else:
+                    linha[3] = linha[3][0:9]
+                if situacao < 10:
+                    linha[4] = linha[4] + (10 - situacao) * " "
+                else:
+                    linha[4] = linha[4][0:9]
+
+                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                print(linha)
+
+        conn.close()
+
+    if filtro == "inativos":
+        r = sr.Recognizer()
+        with sr.Microphone() as source:
+            r.pause_threshold = 1
+            r.adjust_for_ambient_noise(source, duration=1)
+            print('Diga o numero da matricula do funcionario inativo: ')
+            audio = r.listen(source)
+            try:
+                inativo = r.recognize_google(audio, language='pt-BR')
+                print('Você Disse: {0}\n'.format(inativo))
+            except sr.UnknownValueError:
+                print('Não entendi o que você disse, repita por favor.\n')
+                inativo = listenSpeech()
+
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + inativo + " AND funcionarios_status = 'inativo' ;")
+        cursor.execute(sql)
+        cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
+        print(cabecalho)
+
+        for linha in cursor.fetchall():
+            if linha == None:
+                break
+            else:
+                linha = str(linha)
+                linha = linha.replace(")", "")
+                linha = linha.replace("(", "")
+                linha = linha.replace("'", "")
+                linha = linha.split(', ')
+
+                matricula = len(linha[0])
+                nome = len(linha[1])
+                cargo = len(linha[2])
+                salario = len(linha[3])
+                situacao = len(linha[4])
+
+                if matricula < 10:
+                    linha[0] = linha[0] + (10 - matricula) * " "
+                else:
+                    linha[0] = linha[0][0:9]
+                if nome < 40:
+                    linha[1] = linha[1] + (40 - nome) * " "
+                else:
+                    linha[1] = linha[1][0:39]
+                if cargo < 20:
+                    linha[2] = linha[2] + (20 - cargo) * " "
+                else:
+                    linha[2] = linha[2][0:19]
+                if salario < 10:
+                    linha[3] = linha[3] + (10 - matricula) * " "
+                else:
+                    linha[3] = linha[3][0:9]
+                if situacao < 10:
+                    linha[4] = linha[4] + (10 - situacao) * " "
+                else:
+                    linha[4] = linha[4][0:9]
+
+                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                print(linha)
+
+        conn.close()
 
 def inserir_cargo():
 
