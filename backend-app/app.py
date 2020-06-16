@@ -1,112 +1,92 @@
 import sys
+import os
+import inspect
 import speech_recognition as sr
 import sqlite3
+from subprocess import call
+from time import sleep
+
+r = sr.Recognizer()
+r.pause_threshold = 1
+with sr.Microphone() as source:
+    r.adjust_for_ambient_noise(source, duration=1)
 
 def inserir_funcionarios():
+
     ## Realizando a conexão com o banco
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
     ## Criando um cursor, utilizado para executar as funções do banco
     cursor = conn.cursor()
 
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration=1)
-        print('Diga o nome do funcionário: ')
-        audio = r.listen(source)
-        try:
-            func_nome = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(func_nome))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            func_nome = listenSpeech()
+    print('Diga o nome do funcionário que deseja cadastrar.')
+    func_nome = listenSpeech()
 
-        print('Diga um cargo listado para o funcionário: ')
-        cursor.execute(""" SELECT cargos_nome FROM cargos ORDER BY cargos_nome; """)
-        for linha in cursor.fetchall():
-            print(linha)
-        audio = r.listen(source)
-        try:
-            func_cargo = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(func_cargo))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            func_cargo = listenSpeech()
+    print('Diga um cargo listado a baixo em que deseja cadastrar o funcionário.')
+    cursor.execute(""" SELECT * FROM cargos ORDER BY 1; """)
 
-        print('Diga o salário do funcionário: ')
-        audio = r.listen(source)
-        try:
-            func_salario = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(func_salario))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            func_salario = listenSpeech()
+    for row in cursor.fetchall():
+        print("{0} - {1}".format(row[0], row[1]))
+    func_cargo = listenSpeech()
 
-        print('Você confirma esses dados sim ou não ?')
-        audio = r.listen(source)
-        try:
-            confirmacao = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(confirmacao))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            confirmacao = listenSpeech()
+    print('Diga o salário do funcionário.')
+    func_salario = listenSpeech()
 
-    if confirmacao == "sim":
+    confirmacao = ""
+    while confirmacao != "sim" and confirmacao != "não":
 
-        status = str("ativo")
-        cursor.execute("""
-        INSERT INTO funcionarios (funcionarios_nome, funcionarios_cargo, funcionarios_salario, funcionarios_status)
-        VALUES (?,?,?,?)
-        """, (func_nome, func_cargo, func_salario, status))
+        print("Nome: {0};\nCargo: {1};\nSalário: {2}\n".format(func_nome, func_cargo, func_salario))
+        print('Você confirma esses dados? Sim, ou não?')
+        confirmacao = listenSpeech()
 
-        conn.commit()
-        print('Dados inseridos com sucesso.')
-        conn.close()
+        if confirmacao == "sim":
 
-    else:
-        print('Dados não inseridos !')
-        return
+            cursor.execute("""
+            INSERT INTO funcionarios (funcionarios_nome, funcionarios_cargo, funcionarios_salario, funcionarios_status)
+            VALUES (?,?,?,?)
+            """, (func_nome, func_cargo, func_salario, "ativo"))
+
+            conn.commit()
+            print('Dados inseridos com sucesso.')
+        elif confirmacao == "não":
+            print('Dados não inseridos!')
+        else:
+            print('Por favor, diga apenas sim, ou não.\n')
+
+
+    conn.close()
+    return
+
 
 def inserir_cargo():
+
     ## Realizando a conexão com o banco
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
     ## Criando um cursor, utilizado para executar as funções do banco
     cursor = conn.cursor()
 
     ##print("Vamos cadastrar um novo cargo: ")
 
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration=1)
-        print('Diga o nome do cargo: ')
-        audio = r.listen(source)
-        try:
-            cargo_nome = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(cargo_nome))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            cargo_nome = listenSpeech()
+    print('Diga o nome do cargo.')
+    cargo_nome = listenSpeech()
 
-        print('Você confirma esses dados sim ou não ?')
-        audio = r.listen(source)
-        try:
-            confirmacao = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(confirmacao))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            confirmacao = listenSpeech()
+    confirmacao = ""
+    while confirmacao != "sim" and confirmacao != "não":
+        
+        print("Cargo: {0}\n".format(cargo_nome))
+        print('Você confirma esses dados? Sim, ou não?')
+        confirmacao = listenSpeech()
 
-    if confirmacao == "sim":
-
-        cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
-        conn.commit()
-        print('Dados inseridos com sucesso.')
-        conn.close()
-
-    else:
-        print('Dados não inseridos !')
-        return
+        if confirmacao == "sim":
+            cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
+            conn.commit()
+            print('Dados inseridos com sucesso.')
+        elif confirmacao == "não":
+            print('Dados não inseridos!')
+        else:
+            print('Por favor, diga apenas sim, ou não.\n')
+    
+    conn.close()
+    return
 
 def functionSwitcher(argument):
 
@@ -116,41 +96,54 @@ def functionSwitcher(argument):
         inserir_cargo()
     elif str(argument).lower() == "desabilitar sara":
         sys.exit()
+    else:
+        print("Função Não Implementada\n")
 
-    ##return "Função Não Implementada\n"
+def main():
 
-
-def listenSpeech():
-
-    print("MENU PRINCIPAL SARAH")
+    print('MENU PRINCIPAL SARAH')
     print('_' * 42)
     print('Olá, sou a SARAH, sua assistente de RH!')
     print('_' * 42)
     print('Diga, o que você deseja fazer?')
-    print('1 - Cadastrar funcionarios')
-    print('2 - Pesquisar funcionario')
+    print('1 - Cadastrar funcionário')
+    print('2 - Pesquisar funcionário')
     print('3 - Cadastrar Cargo')
-    print('4 - Desabilitar SARAH')
+    print('4 - Desabilitar SARAH\n')
+    print('Diga o que deseja fazer.')
+    command = listenSpeech()
 
-    r = sr.Recognizer()
+    functionSwitcher(command)
+
+def listenSpeech():
+
     with sr.Microphone() as source:
-        r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration=1)
-        print('Diga o que você deseja fazer: ')
+        print('Escutando...\n')
         audio = r.listen(source)
         print('Processando...\n')
     try:
         command = r.recognize_google(audio, language='pt-BR')
-        print('Você Disse: {0}\n'.format(command))
+        print('Você disse: {0}\n'.format(command))
     # loop back to continue to listen for commands if unrecognizable speech
     # is received
     except sr.UnknownValueError:
-        print('Não entendi o que você disse, repita por favor.\n')
+        print('Não entendi o que você disse, repita por favor.')
+        print('Escutando...\n')
         command = listenSpeech()
+    
+    clear()
     return command
 
+def clear():
+
+    sleep(2)
+    if os.name == 'nt': 
+        _ = os.system('cls') 
+   
+    else: 
+        _ = os.system('clear')
 
 while True:
-    answer = listenSpeech()
-    print(functionSwitcher(answer))
+
+    main()
 pass
