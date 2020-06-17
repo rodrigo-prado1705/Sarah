@@ -23,8 +23,8 @@ def inserir_funcionarios():
     print('Diga um cargo listado a baixo em que deseja cadastrar o funcionário.')
     cursor.execute(""" SELECT * FROM cargos ORDER BY 1; """)
 
-    for row in cursor.fetchall():
-        print("{0} - {1}".format(row[0], row[1]))
+    for linha in cursor.fetchall():
+        print("{0} - {1}".format(linha[0], linha[1]))
     func_cargo = listenSpeech()
 
     print('Diga o salário do funcionário.')
@@ -57,7 +57,7 @@ def inserir_funcionarios():
 
 def pesquisar_funcionario():
     ## Realizando a conexão com o banco
-    conn = sqlite3.connect('database.db')
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
     ## Criando um cursor, utilizado para executar as funções do banco
     cursor = conn.cursor()
 
@@ -70,33 +70,13 @@ def pesquisar_funcionario():
     print('3 - Cargo')
     print('4 - Inativos')
 
-    r = sr.Recognizer()
-    with sr.Microphone() as source:
-        r.pause_threshold = 1
-        r.adjust_for_ambient_noise(source, duration=1)
-        print('Diga o filtro desejado: ')
-        audio = r.listen(source)
-        try:
-            filtro = r.recognize_google(audio, language='pt-BR')
-            print('Você Disse: {0}\n'.format(filtro))
-        except sr.UnknownValueError:
-            print('Não entendi o que você disse, repita por favor.\n')
-            filtro = listenSpeech()
+    print('Diga o filtro desejado.')
+    filtro = listenSpeech()
 
     if filtro == "matrícula":
 
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            r.pause_threshold = 1
-            r.adjust_for_ambient_noise(source, duration=1)
-            print('Diga o numero da matricula: ')
-            audio = r.listen(source)
-            try:
-                matricula = r.recognize_google(audio, language='pt-BR')
-                print('Você Disse: {0}\n'.format(matricula))
-            except sr.UnknownValueError:
-                print('Não entendi o que você disse, repita por favor.\n')
-                matricula = listenSpeech()
+        print('Diga o numero da matricula: ')
+        matricula = listenSpeech()
 
         sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
         ##print(sql)
@@ -114,16 +94,14 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                #print(linha)
-
-                matricula = len(linha[0])
+                matricula = len(str(linha[0]))
                 nome = len(linha[1])
                 cargo = len(linha[2])
-                salario = len(linha[3])
+                salario = len(str(linha[3]))
                 situacao = len(linha[4])
 
                 if matricula < 10:
-                    linha[0] = linha[0] + (10-matricula) * " "
+                    linha[0] = str(linha[0]) + (10-matricula) * " "
                 else:
                     linha[0] = linha[0][0:9]
                 if nome < 40:
@@ -135,7 +113,7 @@ def pesquisar_funcionario():
                 else:
                     linha[2] = linha[2][0:19]
                 if salario < 10:
-                    linha[3] = linha[3] + (10-matricula) * " "
+                    linha[3] = str(linha[3]) + (10-salario) * " "
                 else:
                     linha[3] = linha[3][0:9]
                 if situacao < 10:
@@ -143,24 +121,28 @@ def pesquisar_funcionario():
                 else:
                     linha[4] = linha[4][0:9]
 
-                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
                 print(linha)
-
+                
         conn.close()
 
+        print('_' * 42)
+        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+
+        continuar = ""
+        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
+            continuar = listenSpeechNoClear()
+
+            if continuar == "voltar":
+                main()
+            elif continuar.split(" ")[0] == "selecionar":
+                edit_funcionario(int(continuar))
+
+
     if filtro == "nome":
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            r.pause_threshold = 1
-            r.adjust_for_ambient_noise(source, duration=1)
-            print('Diga o nome do funcionário: ')
-            audio = r.listen(source)
-            try:
-                nome = r.recognize_google(audio, language='pt-BR')
-                print('Você Disse: {0}\n'.format(nome))
-            except sr.UnknownValueError:
-                print('Não entendi o que você disse, repita por favor.\n')
-                nome = listenSpeech()
+        print('Diga o nome do funcionário.')
+        nome = listenSpeech()
 
         sql = str("SELECT * FROM funcionarios WHERE funcionarios_nome LIKE '%" + nome + "%' ;")
         cursor.execute(sql)
@@ -177,16 +159,14 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                # print(linha)
-
-                matricula = len(linha[0])
+                matricula = len(str(linha[0]))
                 nome = len(linha[1])
                 cargo = len(linha[2])
-                salario = len(linha[3])
+                salario = len(str(linha[3]))
                 situacao = len(linha[4])
 
                 if matricula < 10:
-                    linha[0] = linha[0] + (10 - matricula) * " "
+                    linha[0] = str(linha[0]) + (10 - matricula) * " "
                 else:
                     linha[0] = linha[0][0:9]
                 if nome < 40:
@@ -198,7 +178,7 @@ def pesquisar_funcionario():
                 else:
                     linha[2] = linha[2][0:19]
                 if salario < 10:
-                    linha[3] = linha[3] + (10 - matricula) * " "
+                    linha[3] = str(linha[3]) + (10 - salario) * " "
                 else:
                     linha[3] = linha[3][0:9]
                 if situacao < 10:
@@ -206,24 +186,27 @@ def pesquisar_funcionario():
                 else:
                     linha[4] = linha[4][0:9]
 
-                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
                 print(linha)
 
         conn.close()
 
+        print('_' * 42)
+        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+
+        continuar = ""
+        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
+            continuar = listenSpeechNoClear()
+
+            if continuar == "voltar":
+                main()
+            elif continuar.split(" ")[0] == "selecionar":
+                edit_funcionario(int(continuar))
+
     if filtro == "cargo":
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            r.pause_threshold = 1
-            r.adjust_for_ambient_noise(source, duration=1)
-            print('Diga o cargo: ')
-            audio = r.listen(source)
-            try:
-                cargo = r.recognize_google(audio, language='pt-BR')
-                print('Você Disse: {0}\n'.format(cargo))
-            except sr.UnknownValueError:
-                print('Não entendi o que você disse, repita por favor.\n')
-                cargo = listenSpeech()
+        print('Diga o cargo.')
+        cargo = listenSpeech()
 
         sql = str("SELECT * FROM funcionarios WHERE funcionarios_cargo = '" + cargo + "';")
         cursor.execute(sql)
@@ -240,16 +223,14 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                # print(linha)
-
-                matricula = len(linha[0])
+                matricula = len(str(linha[0]))
                 nome = len(linha[1])
                 cargo = len(linha[2])
-                salario = len(linha[3])
+                salario = len(str(linha[3]))
                 situacao = len(linha[4])
 
                 if matricula < 10:
-                    linha[0] = linha[0] + (10 - matricula) * " "
+                    linha[0] = str(linha[0]) + (10 - matricula) * " "
                 else:
                     linha[0] = linha[0][0:9]
                 if nome < 40:
@@ -261,7 +242,7 @@ def pesquisar_funcionario():
                 else:
                     linha[2] = linha[2][0:19]
                 if salario < 10:
-                    linha[3] = linha[3] + (10 - matricula) * " "
+                    linha[3] = str(linha[3]) + (10 - salario) * " "
                 else:
                     linha[3] = linha[3][0:9]
                 if situacao < 10:
@@ -269,26 +250,29 @@ def pesquisar_funcionario():
                 else:
                     linha[4] = linha[4][0:9]
 
-                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
                 print(linha)
 
         conn.close()
 
-    if filtro == "inativos":
-        r = sr.Recognizer()
-        with sr.Microphone() as source:
-            r.pause_threshold = 1
-            r.adjust_for_ambient_noise(source, duration=1)
-            print('Diga o numero da matricula do funcionario inativo: ')
-            audio = r.listen(source)
-            try:
-                inativo = r.recognize_google(audio, language='pt-BR')
-                print('Você Disse: {0}\n'.format(inativo))
-            except sr.UnknownValueError:
-                print('Não entendi o que você disse, repita por favor.\n')
-                inativo = listenSpeech()
+        print('_' * 42)
+        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
 
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + inativo + " AND funcionarios_status = 'inativo' ;")
+        continuar = ""
+        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
+            continuar = listenSpeechNoClear()
+
+            if continuar == "voltar":
+                main()
+            elif continuar.split(" ")[0] == "selecionar":
+                edit_funcionario(int(continuar))
+
+    if filtro == "inativos":
+        print('Diga o numero da matricula do funcionario inativo: ')
+        inativo = listenSpeech()
+
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + inativo + " AND funcionarios_status = 'inativo';")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -303,14 +287,14 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                matricula = len(linha[0])
+                matricula = len(str(linha[0]))
                 nome = len(linha[1])
                 cargo = len(linha[2])
-                salario = len(linha[3])
+                salario = len(str(linha[3]))
                 situacao = len(linha[4])
 
                 if matricula < 10:
-                    linha[0] = linha[0] + (10 - matricula) * " "
+                    linha[0] = str(linha[0]) + (10 - matricula) * " "
                 else:
                     linha[0] = linha[0][0:9]
                 if nome < 40:
@@ -322,7 +306,7 @@ def pesquisar_funcionario():
                 else:
                     linha[2] = linha[2][0:19]
                 if salario < 10:
-                    linha[3] = linha[3] + (10 - matricula) * " "
+                    linha[3] = str(linha[3]) + (10 - matricula) * " "
                 else:
                     linha[3] = linha[3][0:9]
                 if situacao < 10:
@@ -330,10 +314,29 @@ def pesquisar_funcionario():
                 else:
                     linha[4] = linha[4][0:9]
 
-                linha = str(linha[0] + linha[1] + linha[2] + linha[3] + linha[4])
+                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
                 print(linha)
 
         conn.close()
+
+        print('_' * 42)
+        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+
+        continuar = ""
+        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
+            continuar = listenSpeechNoClear()
+
+            if continuar == "voltar":
+                main()
+            elif continuar.split(" ")[0] == "selecionar":
+                edit_funcionario(int(continuar))
+
+def edit_funcionario(matricula):
+
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
+
+    conn.close()
 
 def inserir_cargo():
 
@@ -372,6 +375,8 @@ def functionSwitcher(argument):
         inserir_funcionarios()
     elif str(argument).lower() == "cadastrar cargo":
         inserir_cargo()
+    elif str(argument).lower() == "pesquisar funcionário":
+        pesquisar_funcionario()
     elif str(argument).lower() == "desabilitar sara":
         sys.exit()
     else:
@@ -410,6 +415,21 @@ def listenSpeech():
         command = listenSpeech()
     
     clear()
+    return command
+
+def listenSpeechNoClear():
+
+    with sr.Microphone() as source:
+        print('Escutando...  \r')
+        audio = r.listen(source)
+        print('Processando...\r')
+    try:
+        command = r.recognize_google(audio, language='pt-BR')
+    # loop back to continue to listen for commands if unrecognizable speech
+    # is received
+    except sr.UnknownValueError:
+        command = listenSpeech()
+    
     return command
 
 def clear():
