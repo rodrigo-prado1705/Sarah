@@ -6,9 +6,7 @@ import sqlite3
 from time import sleep
 
 r = sr.Recognizer()
-r.pause_threshold = 1
-with sr.Microphone() as source:
-    r.adjust_for_ambient_noise(source, duration=1)
+r.pause_threshold = 0.5
 
 def inserir_funcionarios():
 
@@ -336,13 +334,13 @@ def edit_funcionario(matricula):
     conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
     cursor = conn.cursor()
 
+    clear()
+
     sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
     cursor.execute(sql)
 
-    print("Formulário de alteração de dados do funcionário")
-    print('_' * 42)
-    cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
-    print(cabecalho)
+    cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
+    + "\nMATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO"
 
     for linha in cursor.fetchall():
         if linha == None:
@@ -354,81 +352,93 @@ def edit_funcionario(matricula):
             linha = linha.replace("'", "")
             linha = linha.split(', ')
 
-            matricula = len(str(linha[0]))
-            nome = len(linha[1])
-            cargo = len(linha[2])
-            salario = len(str(linha[3]))
-            situacao = len(linha[4])
+            linha = FormatacaoString(linha)
 
-            if matricula < 10:
-                linha[0] = str(linha[0]) + (10 - matricula) * " "
-            else:
-                linha[0] = linha[0][0:9]
-            if nome < 40:
-                linha[1] = linha[1] + (40 - nome) * " "
-            else:
-                linha[1] = linha[1][0:39]
-            if cargo < 20:
-                linha[2] = linha[2] + (20 - cargo) * " "
-            else:
-                linha[2] = linha[2][0:19]
-            if salario < 10:
-                linha[3] = str(linha[3]) + (10 - matricula) * " "
-            else:
-                linha[3] = linha[3][0:9]
-            if situacao < 10:
-                linha[4] = linha[4] + (10 - situacao) * " "
-            else:
-                linha[4] = linha[4][0:9]
+            confirmacaoRegistro = ""
+            confirmacao = ""
+            func_nome = ""
+            func_cargo = ""
+            func_salario = ""
 
-            linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
-            print(linha)
+            while confirmacao != "sim" and confirmacao != "não":
+                print(cabecalho)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                confirmacaoRegistro = ""
+                confirmacao = ""
 
+                print('Deseja alterar o nome do funcionário? (Sim ou Não)')
+                confirmacao = listenSpeechNoClear()
+                if confirmacao == "sim":
+                    while confirmacaoRegistro != "sim":
+                        print("Diga o novo nome do funcionário: ")
+                        func_nome = str(listenSpeechNoClear())
+                        print('Confirma a atualização?')
+                        confirmacaoRegistro = listenSpeech()
+                elif confirmacao == "não":
+                    func_nome = str(linha[1]).strip()
+            
+            confirmacaoRegistro = ""
+            confirmacao = ""
+            linha[1] = func_nome
+            linha = FormatacaoString(linha)
 
-    print('Deseja alterar o nome do funcionário? (Sim ou Não)')
-    confirmacao1 = listenSpeech()
-    if confirmacao1 == "sim":
-        print("Diga o novo nome do funcionário: ")
-        func_nome = str(listenSpeech())
-    elif confirmacao1 == "não":
-        func_nome = str(linha[1])
+            while confirmacao != "sim" and confirmacao != "não":
+                print(cabecalho)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
+                confirmacaoRegistro = ""
+                confirmacao = ""
 
-    print('Deseja trocar o cargo do funcionário? (Sim ou Não)')
-    confirmacao2 = listenSpeech()
-    if confirmacao2 == "sim":
-        cursor.execute(""" SELECT * FROM cargos ORDER BY 1; """)
-        for linha in cursor.fetchall():
-            print("{0} - {1}".format(linha[0], linha[1]))
-        print("Diga o novo cargo do funcionário: ")
-        func_cargo = str(listenSpeech())
-    elif confirmacao2 == "não":
-        func_cargo = str(linha[2])
+                print('Deseja trocar o cargo do funcionário? (Sim ou Não)')
+                confirmacao = listenSpeechNoClear()
+                if confirmacao == "sim":
+                    cursor.execute(""" SELECT * FROM cargos ORDER BY 1; """)
+                    for linhaCargo in cursor.fetchall():
+                        print("{0} - {1}".format(linhaCargo[0], linhaCargo[1]))
+                    while confirmacaoRegistro != "sim":
+                        print("Diga o novo cargo do funcionário: ")
+                        func_cargo = str(listenSpeech())
+                        print('Confirma a atualização?')
+                        confirmacaoRegistro = listenSpeech()
+                elif confirmacao == "não":
+                    func_cargo = str(linha[2]).strip()
 
-    print('Deseja alterar o salário do funcionário? (Sim ou Não)')
-    confirmacao3 = listenSpeech()
-    if confirmacao3 == "sim":
-        print("Diga o novo salário do funcionário: ")
-        func_salario = str(listenSpeech())
-    elif confirmacao3 == "não":
-        func_salario = str(linha[3])
+            confirmacaoRegistro = ""
+            confirmacao = ""
+            linha[2] = func_cargo
+            linha = FormatacaoString(linha)
 
-    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
-    cursor = conn.cursor()
-    #cursor.execute("""UPDATE funcionarios SET funcionarios_nome = ?, funcionarios_cargo = ?, funcionarios_salario = ?
-    #WHERE funcionarios_id = ? """, (func_nome, func_cargo, func_salario, int(matricula)))
+            while confirmacao != "sim" and confirmacao != "não":
+                print(cabecalho)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
+                confirmacaoRegistro = ""
+                confirmacao = ""
 
-    sql = """
-    UPDATE funcionarios SET
-    funcionarios_nome = '""" + func_nome + """',
-    funcionarios_cargo = '""" + func_cargo + """',
-    funcionarios_salario = '""" + func_salario + """'   
-    WHERE funcionarios_id = """ + str(matricula) + ""
-    cursor.execute(sql)
-    conn.commit()
+                print('Deseja alterar o salário do funcionário? (Sim ou Não)')
+                confirmacao = listenSpeechNoClear()
+                if confirmacao == "sim":
+                    while confirmacaoRegistro != "sim":
+                        print("Diga o novo salário do funcionário: ")
+                        func_salario = str(listenSpeech())
+                        print('Confirma a atualização?')
+                        confirmacaoRegistro = listenSpeech()
+                elif confirmacao == "não":
+                    func_salario = str(linha[3]).strip()
 
-    print('Dados atualizados com sucesso.')
+            #cursor.execute("""UPDATE funcionarios SET funcionarios_nome = ?, funcionarios_cargo = ?, funcionarios_salario = ?
+            #WHERE funcionarios_id = ? """, (func_nome, func_cargo, func_salario, int(matricula)))
 
-    conn.close()
+            sql = """
+            UPDATE funcionarios SET
+            funcionarios_nome = '""" + func_nome + """',
+            funcionarios_cargo = '""" + func_cargo + """',
+            funcionarios_salario = '""" + func_salario + """'   
+            WHERE funcionarios_id = """ + str(linha[0]).strip() + ""
+            cursor.execute(sql)
+            conn.commit()
+
+            print('Dados atualizados com sucesso.')
+
+        conn.close()
 
 def inserir_cargo():
 
@@ -493,6 +503,9 @@ def main():
 def listenSpeech():
 
     with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source, duration=0.5)
+
+    with sr.Microphone() as source:
         print('Escutando...\n')
         audio = r.listen(source)
         print('Processando...\n')
@@ -503,13 +516,14 @@ def listenSpeech():
     # is received
     except sr.UnknownValueError:
         print('Não entendi o que você disse, repita por favor.')
-        print('Escutando...\n')
         command = listenSpeech()
     
     clear()
     return command
 
 def listenSpeechNoClear():
+    with sr.Microphone() as source:
+        r.adjust_for_ambient_noise(source, duration=0.5)
 
     with sr.Microphone() as source:
         print('Escutando...  \r')
@@ -520,7 +534,7 @@ def listenSpeechNoClear():
     # loop back to continue to listen for commands if unrecognizable speech
     # is received
     except sr.UnknownValueError:
-        command = listenSpeech()
+        command = listenSpeechNoClear()
     
     return command
 
@@ -532,6 +546,37 @@ def clear():
    
     else: 
         _ = os.system('clear')
+
+def FormatacaoString(linha):
+
+    matricula = len(str(linha[0]))
+    nome = len(linha[1])
+    cargo = len(linha[2])
+    salario = len(str(linha[3]))
+    situacao = len(linha[4])
+
+    if matricula < 10:
+        linha[0] = str(linha[0]) + (10 - matricula) * " "
+    else:
+        linha[0] = linha[0][0:10]
+    if nome < 40:
+        linha[1] = linha[1] + (40 - nome) * " "
+    else:
+        linha[1] = linha[1][0:40]
+    if cargo < 20:
+        linha[2] = linha[2] + (20 - cargo) * " "
+    else:
+        linha[2] = linha[2][0:20]
+    if salario < 10:
+        linha[3] = str(linha[3]) + (10 - matricula) * " "
+    else:
+        linha[3] = linha[3][0:10]
+    if situacao < 10:
+        linha[4] = linha[4] + (10 - situacao) * " "
+    else:
+        linha[4] = linha[4][0:10]
+
+    return linha
 
 while True:
 
