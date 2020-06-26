@@ -19,7 +19,7 @@ def inserir_funcionarios():
     func_nome = listenSpeech()
 
     print('Diga um cargo listado a baixo em que deseja cadastrar o funcionário.')
-    cursor.execute(""" SELECT * FROM cargos ORDER BY 1; """)
+    cursor.execute(""" SELECT * FROM cargos ORDER BY cargos_nome; """)
 
     for linha in cursor.fetchall():
         print("{0} - {1}".format(linha[0], linha[1]))
@@ -67,6 +67,7 @@ def pesquisar_funcionario():
     print('2 - Nome')
     print('3 - Cargo')
     print('4 - Inativos')
+    print('5 - Todos')
 
     print('Diga o filtro desejado.')
     filtro = listenSpeech()
@@ -92,41 +93,15 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                matricula = len(str(linha[0]))
-                nome = len(linha[1])
-                cargo = len(linha[2])
-                salario = len(str(linha[3]))
-                situacao = len(linha[4])
-
-                if matricula < 10:
-                    linha[0] = str(linha[0]) + (10-matricula) * " "
-                else:
-                    linha[0] = linha[0][0:9]
-                if nome < 40:
-                    linha[1] = linha[1] + (40-nome) * " "
-                else:
-                    linha[1] = linha[1][0:39]
-                if cargo < 20:
-                    linha[2] = linha[2] + (20-cargo) * " "
-                else:
-                    linha[2] = linha[2][0:19]
-                if salario < 10:
-                    linha[3] = str(linha[3]) + (10-salario) * " "
-                else:
-                    linha[3] = linha[3][0:9]
-                if situacao < 10:
-                    linha[4] = linha[4] + (10-situacao) * " "
-                else:
-                    linha[4] = linha[4][0:9]
-
-                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
-                print(linha)
+                linha = FormatacaoString(linha)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
                 
         conn.close()
 
         print('_' * 42)
-        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
+        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
 
         continuar = ""
         while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
@@ -136,7 +111,8 @@ def pesquisar_funcionario():
                 main()
             elif continuar.split(" ")[0] == "selecionar":
                 edit_funcionario(continuar.split(" ")[1])
-
+            elif continuar.split(" ")[0] == "demitir":
+                demitir_funcionario(continuar.split(" ")[1])
 
     if filtro == "nome":
         print('Diga o nome do funcionário.')
@@ -157,41 +133,15 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                matricula = len(str(linha[0]))
-                nome = len(linha[1])
-                cargo = len(linha[2])
-                salario = len(str(linha[3]))
-                situacao = len(linha[4])
-
-                if matricula < 10:
-                    linha[0] = str(linha[0]) + (10 - matricula) * " "
-                else:
-                    linha[0] = linha[0][0:9]
-                if nome < 40:
-                    linha[1] = linha[1] + (40 - nome) * " "
-                else:
-                    linha[1] = linha[1][0:39]
-                if cargo < 20:
-                    linha[2] = linha[2] + (20 - cargo) * " "
-                else:
-                    linha[2] = linha[2][0:19]
-                if salario < 10:
-                    linha[3] = str(linha[3]) + (10 - salario) * " "
-                else:
-                    linha[3] = linha[3][0:9]
-                if situacao < 10:
-                    linha[4] = linha[4] + (10 - situacao) * " "
-                else:
-                    linha[4] = linha[4][0:9]
-
-                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
-                print(linha)
+                linha = FormatacaoString(linha)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
 
         conn.close()
 
         print('_' * 42)
-        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
+        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
 
         continuar = ""
         while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
@@ -201,6 +151,8 @@ def pesquisar_funcionario():
                 main()
             elif continuar.split(" ")[0] == "selecionar":
                 edit_funcionario(continuar.split(" ")[1])
+            elif continuar.split(" ")[0] == "demitir":
+                demitir_funcionario(continuar.split(" ")[1])
 
     if filtro == "cargo":
         print('Diga o cargo.')
@@ -221,41 +173,15 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                matricula = len(str(linha[0]))
-                nome = len(linha[1])
-                cargo = len(linha[2])
-                salario = len(str(linha[3]))
-                situacao = len(linha[4])
-
-                if matricula < 10:
-                    linha[0] = str(linha[0]) + (10 - matricula) * " "
-                else:
-                    linha[0] = linha[0][0:9]
-                if nome < 40:
-                    linha[1] = linha[1] + (40 - nome) * " "
-                else:
-                    linha[1] = linha[1][0:39]
-                if cargo < 20:
-                    linha[2] = linha[2] + (20 - cargo) * " "
-                else:
-                    linha[2] = linha[2][0:19]
-                if salario < 10:
-                    linha[3] = str(linha[3]) + (10 - salario) * " "
-                else:
-                    linha[3] = linha[3][0:9]
-                if situacao < 10:
-                    linha[4] = linha[4] + (10 - situacao) * " "
-                else:
-                    linha[4] = linha[4][0:9]
-
-                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
-                print(linha)
+                linha = FormatacaoString(linha)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
 
         conn.close()
 
         print('_' * 42)
-        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
+        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
 
         continuar = ""
         while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
@@ -265,12 +191,12 @@ def pesquisar_funcionario():
                 main()
             elif continuar.split(" ")[0] == "selecionar":
                 edit_funcionario(continuar.split(" ")[1])
+            elif continuar.split(" ")[0] == "demitir":
+                demitir_funcionario(continuar.split(" ")[1])
 
     if filtro == "inativos":
-        print('Diga o numero da matricula do funcionario inativo: ')
-        inativo = listenSpeech()
 
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + inativo + " AND funcionarios_status = 'inativo';")
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_status = 'inativo';")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -285,49 +211,60 @@ def pesquisar_funcionario():
                 linha = linha.replace("'", "")
                 linha = linha.split(', ')
 
-                matricula = len(str(linha[0]))
-                nome = len(linha[1])
-                cargo = len(linha[2])
-                salario = len(str(linha[3]))
-                situacao = len(linha[4])
-
-                if matricula < 10:
-                    linha[0] = str(linha[0]) + (10 - matricula) * " "
-                else:
-                    linha[0] = linha[0][0:9]
-                if nome < 40:
-                    linha[1] = linha[1] + (40 - nome) * " "
-                else:
-                    linha[1] = linha[1][0:39]
-                if cargo < 20:
-                    linha[2] = linha[2] + (20 - cargo) * " "
-                else:
-                    linha[2] = linha[2][0:19]
-                if salario < 10:
-                    linha[3] = str(linha[3]) + (10 - matricula) * " "
-                else:
-                    linha[3] = linha[3][0:9]
-                if situacao < 10:
-                    linha[4] = linha[4] + (10 - situacao) * " "
-                else:
-                    linha[4] = linha[4][0:9]
-
-                linha = str(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
-                print(linha)
+                linha = FormatacaoString(linha)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
 
         conn.close()
 
         print('_' * 42)
-        print("\nCaso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("\nCaso queira voltar ao menu principal, diga 'Voltar'.")
+        print("Caso queira ativar algum dos registros, diga 'Ativar <número da matricula>';")
+        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
 
         continuar = ""
         while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
             continuar = listenSpeechNoClear()
+
+            if continuar == "voltar":
+                main()
+            elif continuar.split(" ")[0] == "ativar":
+                ativar_funcionario(continuar.split(" ")[1])
+
+    if filtro == "todos":
+        sql = str("SELECT * FROM funcionarios WHERE funcionarios_status != 'inativo' ORDER BY funcionarios_nome;")
+        cursor.execute(sql)
+        cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
+        print(cabecalho)
+
+        for linha in cursor.fetchall():
+            if linha == None:
+                break
+            else:
+                linha = str(linha)
+                linha = linha.replace(")", "")
+                linha = linha.replace("(", "")
+                linha = linha.replace("'", "")
+                linha = linha.split(', ')
+
+                linha = FormatacaoString(linha)
+                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+
+        conn.close()
+
+        print('_' * 42)
+        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
+        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
+        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
+
+        continuar = ""
+        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
+            continuar = listenSpeechNoClear()
+
             if continuar == "voltar":
                 main()
             elif continuar.split(" ")[0] == "selecionar":
                 edit_funcionario(continuar.split(" ")[1])
+            elif continuar.split(" ")[0] == "demitir":
+                demitir_funcionario(continuar.split(" ")[1])
 
 def edit_funcionario(matricula):
 
@@ -391,7 +328,7 @@ def edit_funcionario(matricula):
                 print('Deseja trocar o cargo do funcionário? (Sim ou Não)')
                 confirmacao = listenSpeechNoClear()
                 if confirmacao == "sim":
-                    cursor.execute(""" SELECT * FROM cargos ORDER BY 1; """)
+                    cursor.execute(""" SELECT * FROM cargos ORDER BY cargos_nome; """)
                     for linhaCargo in cursor.fetchall():
                         print("{0} - {1}".format(linhaCargo[0], linhaCargo[1]))
                     while confirmacaoRegistro != "sim":
@@ -424,9 +361,6 @@ def edit_funcionario(matricula):
                 elif confirmacao == "não":
                     func_salario = str(linha[3]).strip()
 
-            #cursor.execute("""UPDATE funcionarios SET funcionarios_nome = ?, funcionarios_cargo = ?, funcionarios_salario = ?
-            #WHERE funcionarios_id = ? """, (func_nome, func_cargo, func_salario, int(matricula)))
-
             sql = """
             UPDATE funcionarios SET
             funcionarios_nome = '""" + func_nome + """',
@@ -440,6 +374,90 @@ def edit_funcionario(matricula):
 
         conn.close()
 
+def demitir_funcionario(matricula):
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
+    cursor = conn.cursor()
+
+    clear()
+
+    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
+    cursor.execute(sql)
+
+    cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
+                + "\nMATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO"
+    confirmacao = ""
+
+    for linha in cursor.fetchall():
+        if linha == None:
+            break
+        else:
+            linha = str(linha)
+            linha = linha.replace(")", "")
+            linha = linha.replace("(", "")
+            linha = linha.replace("'", "")
+            linha = linha.split(', ')
+
+            linha = FormatacaoString(linha)
+            print(cabecalho)
+            print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+
+            print("Confirma a demissão do funcionário selecionado? (Sim ou Não)")
+            confirmacao = listenSpeechNoClear()
+            if confirmacao == "sim":
+                sql = """
+                UPDATE funcionarios SET
+                funcionarios_status = 'inativo'
+                WHERE funcionarios_id = """ + matricula + ""
+                cursor.execute(sql)
+                conn.commit()
+
+    print('Funcionário demitido com sucesso !')
+    pesquisar_funcionario()
+
+    conn.close()
+
+def ativar_funcionario(matricula):
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
+    cursor = conn.cursor()
+
+    clear()
+
+    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
+    cursor.execute(sql)
+
+    cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
+                + "\nMATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO"
+    confirmacao = ""
+
+    for linha in cursor.fetchall():
+        if linha == None:
+            break
+        else:
+            linha = str(linha)
+            linha = linha.replace(")", "")
+            linha = linha.replace("(", "")
+            linha = linha.replace("'", "")
+            linha = linha.split(', ')
+
+            linha = FormatacaoString(linha)
+            print(cabecalho)
+            print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+
+            print("Deseja reativar o funcionário selecionado? (Sim ou Não)")
+            confirmacao = listenSpeechNoClear()
+            if confirmacao == "sim":
+                sql = """
+                UPDATE funcionarios SET
+                funcionarios_status = 'ativo'
+                WHERE funcionarios_id = """ + matricula + ""
+                cursor.execute(sql)
+                conn.commit()
+
+    print('Funcionário ativado com sucesso !')
+    pesquisar_funcionario()
+
+    conn.close()
+
 def inserir_cargo():
 
     ## Realizando a conexão com o banco
@@ -447,38 +465,190 @@ def inserir_cargo():
     ## Criando um cursor, utilizado para executar as funções do banco
     cursor = conn.cursor()
 
-    ##print("Vamos cadastrar um novo cargo: ")
-
     print('Diga o nome do cargo.')
     cargo_nome = listenSpeech()
 
-    confirmacao = ""
+    cursor.execute(""" SELECT cargos_nome FROM cargos WHERE cargos_nome LIKE '%""" + cargo_nome + """%'; """)
+    if cursor.fetchall() != "":
+        print("Cargo ja cadastrado no Sistema !\n")
+        inserir_cargo()
+    else:
+        confirmacao = ""
+
+
     while confirmacao != "sim" and confirmacao != "não":
-        
+
         print("Cargo: {0}\n".format(cargo_nome))
         print('Você confirma esses dados? Sim, ou não?')
         confirmacao = listenSpeech()
 
         if confirmacao == "sim":
-            cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
-            conn.commit()
-            print('Dados inseridos com sucesso.')
+           cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
+           conn.commit()
+           print('Dados inseridos com sucesso.')
         elif confirmacao == "não":
-            print('Dados não inseridos!')
+           print('Dados não inseridos!')
         else:
-            print('Por favor, diga apenas sim, ou não.\n')
+           print('Por favor, diga apenas sim, ou não.\n')
     
     conn.close()
     return
+
+def pesquisar_cargo():
+    ## Realizando a conexão com o banco
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
+    ## Criando um cursor, utilizado para executar as funções do banco
+    cursor = conn.cursor()
+
+    print("MENU DE PESQUISA DE CARGOS")
+    print('_' * 42)
+
+    sql = str("SELECT cargos_id, cargos_nome FROM cargos ORDER BY cargos_nome;")
+    cursor.execute(sql)
+    cabecalho = str("CÓDIGO  CARGO          ")
+    print(cabecalho)
+
+    for linha in cursor.fetchall():
+        if linha == None:
+            break
+        else:
+            linha = str(linha)
+            linha = linha.replace(")", "")
+            linha = linha.replace("(", "")
+            linha = linha.replace("'", "")
+            linha = linha.split(', ')
+
+            codigo = len(str(linha[0]))
+            cargo = len(linha[1])
+
+            if codigo < 8:
+                linha[0] = str(linha[0]) + (8 - codigo) * " "
+            else:
+                linha[0] = linha[0][0:8]
+            if cargo < 15:
+                linha[1] = linha[1] + (15 - cargo) * " "
+            else:
+                linha[1] = linha[1][0:15]
+
+            linha = str(str(linha[0]) + linha[1])
+            print(linha)
+
+    conn.close()
+
+    print('_' * 42)
+    print("Caso queira editar algum dos registros, diga 'Alterar <número da código>';")
+    print("Caso queira deletar algum dos registros, diga 'Deletar <número da código>';")
+    print("Caso queira voltar ao menu principal, diga 'Voltar'.")
+
+    continuar = ""
+    while continuar != "voltar" and continuar.split(" ")[0] != "alterar":
+        continuar = listenSpeechNoClear()
+
+        if continuar == "voltar":
+            main()
+        elif continuar.split(" ")[0] == "alterar":
+            edit_cargo(continuar.split(" ")[1])
+        elif continuar.split(" ")[0] == "deletar":
+            deletar_cargo(continuar.split(" ")[1])
+
+def edit_cargo(codigo):
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
+    cursor = conn.cursor()
+
+    sql = str("SELECT * FROM cargos WHERE cargos_id = " + codigo + ";")
+    cursor.execute(sql)
+
+    cabecalho = "Formulário de alteração de Cargo\n" + '_' * 42 \
+                + "\nCÓDIGO  CARGO          "
+
+    for linha in cursor.fetchall():
+        if linha == None:
+            break
+        else:
+            linha = str(linha)
+            linha = linha.replace(")", "")
+            linha = linha.replace("(", "")
+            linha = linha.replace("'", "")
+            linha = linha.split(', ')
+
+            codigo = len(str(linha[0]))
+            cargo = len(linha[1])
+
+            if codigo < 8:
+                linha[0] = str(linha[0]) + (8 - codigo) * " "
+            else:
+                linha[0] = linha[0][0:8]
+            if cargo < 15:
+                linha[1] = linha[1] + (15 - cargo) * " "
+            else:
+                linha[1] = linha[1][0:15]
+
+            confirmacaoRegistro = ""
+            confirmacao = ""
+            cargo_nome = ""
+
+            while confirmacao != "sim" and confirmacao != "não":
+                print(cabecalho)
+                print(str(linha[0]) + linha[1]+"\n")
+                confirmacaoRegistro = ""
+                confirmacao = ""
+
+                print('Deseja alterar cargo? (Sim ou Não)')
+                confirmacao = listenSpeechNoClear()
+                if confirmacao == "sim":
+                    while confirmacaoRegistro != "sim":
+                        print("Diga o novo nome do cargo: ")
+                        cargo_nome = str(listenSpeechNoClear())
+                        print('Confirma a atualização? (Sim ou Não)')
+                        confirmacaoRegistro = listenSpeech()
+                elif confirmacao == "não":
+                    cargo_nome = str(linha[1]).strip()
+
+            sql = """
+            UPDATE cargos SET
+            cargos_nome = '""" + cargo_nome + """' 
+            WHERE cargos_id = """ + str(linha[0]).strip() + ""
+            cursor.execute(sql)
+            conn.commit()
+
+            print('Dados atualizados com sucesso.')
+
+        conn.close()
+
+def deletar_cargo(codigo):
+    ## Realizando a conexão com o banco
+    conn = sqlite3.connect(os.path.join(os.path.dirname(os.path.abspath(inspect.stack()[0][1])), 'database.db'))
+    ## Criando um cursor, utilizado para executar as funções do banco
+    cursor = conn.cursor()
+
+    print("Atenção ao concordar com a exclusão os dados não poderam ser recuperados.")
+    print("Deseja mesmo deletar este cargo? (Sim ou Não)")
+    confirmacao = listenSpeechNoClear()
+    if confirmacao == "sim":
+
+        cursor.execute("""
+        DELETE FROM cargos
+        WHERE cargos_id = ?
+        """, (codigo,))
+
+        conn.commit()
+
+        print("Cargo deletado com sucesso !")
+        pesquisar_cargo()
+    else:
+        pesquisar_cargo()
+
 
 def functionSwitcher(argument):
 
     if str(argument).lower() == "cadastrar funcionário":
         inserir_funcionarios()
-    elif str(argument).lower() == "cadastrar cargo":
-        inserir_cargo()
     elif str(argument).lower() == "pesquisar funcionário":
         pesquisar_funcionario()
+    elif str(argument).lower() == "cadastrar cargo":
+        inserir_cargo()
+    elif str(argument).lower() == "pesquisar cargo":
+        pesquisar_cargo()
     elif str(argument).lower() == "desabilitar sara":
         sys.exit()
     else:
@@ -494,8 +664,9 @@ def main():
     print('1 - Cadastrar funcionário')
     print('2 - Pesquisar funcionário')
     print('3 - Cadastrar Cargo')
-    print('4 - Desabilitar SARAH\n')
-    print('Diga o que deseja fazer.')
+    print('4 - Pesquisar Cargo')
+    print('5 - Desabilitar SARAH\n')
+    print('Diga o que deseja fazer:')
     command = listenSpeech()
 
     functionSwitcher(command)
