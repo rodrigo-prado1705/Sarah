@@ -61,7 +61,7 @@
 
 <p><div align="justify">Nesta entrega implementamos algumas funções a fim de deixar a Sarah mais completa e funcional para o usuário.</div></p>
 <p><div align="justify">O usuário pode solicitar:</div></p>
-<p><div align="justify">• Alteração de cargo de um funcionário.</div></p>
+<p><div align="justify">• Alteração de cargo de um funcionário;</div></p>
 <p><div align="justify">• Demissão de um funcionário;</div></p>
 <p><div align="justify">• Reativação de um usuário que foi demitido anteriormente;</div></p>
 <p><div align="justify">• A relação de todos os funcionários cadastrados no banco;</div></p>
