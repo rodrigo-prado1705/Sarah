@@ -59,37 +59,25 @@
 
 <p><div align="center"><b>5ª ENTREGA - IMPLEMENTAÇÃO DA FUNCIONALIDADE "ALTERAR FUNCIONÁRIO"</b></div></p>
 
-Nesta entrega implementamos algumas funções a fim de deixar a Sarah mais completa e funcional para o usuário.
-O usuário pode solicitar:
-> Alteração de cargo de um funcionário.
-> Demissão de um funcionário;
-> Reativação de um usuário que foi demitido anteriormente;
-> A relação de todos os funcionários cadastrados no banco;
-> A relação de funcionários demitidos;
-> A relação de cargos cadastrados;
-> Alteração de um cargo;
-> Exclusão de um cargo.
+<p><div align="justify">Nesta entrega implementamos algumas funções a fim de deixar a Sarah mais completa e funcional para o usuário.</div></p>
+<p><div align="justify">O usuário pode solicitar:</div></p>
+<p><div align="justify">• Alteração de cargo de um funcionário.</div></p>
+<p><div align="justify">• Demissão de um funcionário;</div></p>
+<p><div align="justify">• Reativação de um usuário que foi demitido anteriormente;</div></p>
+<p><div align="justify">• A relação de todos os funcionários cadastrados no banco;</div></p>
+<p><div align="justify">• A relação de funcionários demitidos;</div></p>
+<p><div align="justify">• A relação de cargos cadastrados;</div></p>
+<p><div align="justify">• Alteração de um cargo;</div></p>
+<p><div align="justify">• Exclusão de um cargo.</div></p>
 
-Foi adicionada a proteção de inclusão de cargos já existentes, a fim de evitar duplicidade de registros no banco;
+<p><div align="justify">Foi adicionada a proteção de inclusão de cargos já existentes, a fim de evitar duplicidade de registros no banco;</div></p>
 
-Otimização e modularização do código para melhor performance;
+<p><div align="justify">Otimização e modularização do código para melhor performance;</div></p>
 
-Atualização e otimização do Speech Recognition para capturar e reconhecer a voz do usuário em menor tempo;
+<p><div align="justify">Atualização e otimização do Speech Recognition para capturar e reconhecer a voz do usuário em menor tempo;</div></p>
 
-Por fim, após a Sarah executar os comandos solicitados pelo usuário, faz a limpeza das requisições e respostas exibidas na tela, a fim de deixar o visual limpo e pronto para o próximo comando.
+<p><div align="justify">Por fim, após a Sarah executar os comandos solicitados pelo usuário, faz a limpeza das requisições e respostas exibidas na tela, a fim de deixar o visual limpo e pronto para o próximo comando.</div></p>
 
-alterar funcionarios
-demitir funcionarios
-reativar funcionario
-pesquisar todos os funcionarios
-pesquisa de funcionarios inativos
-bloqueio de inserção de cargos ja existentes
-pesquisar cargos
-alterar cargos
-excluir cargos
-otimização e modularizacao do codigo
-atualização do speech recognition
-Limpando a tela após os comandos serem executados
 
 
 <p><div align="center"><b>APRESENTAÇÕES</b></div></p>
