@@ -60,24 +60,15 @@
 <p><div align="center"><b>5ª ENTREGA - IMPLEMENTAÇÃO DA FUNCIONALIDADE "ALTERAR FUNCIONÁRIO"</b></div></p>
 
 Nesta entrega implementamos algumas funções a fim de deixar a Sarah mais completa e funcional para o usuário.
-
 O usuário pode solicitar:
-
-	> Alteração de cargo de um funcionário.
-	
-	> Demissão de um funcionário;
-	
-	> Reativação de um usuário que foi demitido anteriormente;
-	
-	> A relação de todos os funcionários cadastrados no banco;
-	
-	> A relação de funcionários demitidos;
-
-	> A relação de cargos cadastrados;
-	
-	> Alteração de um cargo;
-	
-	> Exclusão de um cargo.
+> Alteração de cargo de um funcionário.
+> Demissão de um funcionário;
+> Reativação de um usuário que foi demitido anteriormente;
+> A relação de todos os funcionários cadastrados no banco;
+> A relação de funcionários demitidos;
+> A relação de cargos cadastrados;
+> Alteração de um cargo;
+> Exclusão de um cargo.
 
 Foi adicionada a proteção de inclusão de cargos já existentes, a fim de evitar duplicidade de registros no banco;
 
@@ -87,18 +78,18 @@ Atualização e otimização do Speech Recognition para capturar e reconhecer a 
 
 Por fim, após a Sarah executar os comandos solicitados pelo usuário, faz a limpeza das requisições e respostas exibidas na tela, a fim de deixar o visual limpo e pronto para o próximo comando.
 
-\\alterar funcionarios
-\\demitir funcionarios
-\\reativar funcionario
-\\pesquisar todos os funcionarios
-\\pesquisa de funcionarios inativos
-\\bloqueio de inserção de cargos ja existentes
-\\pesquisar cargos
-\\alterar cargos
-\\excluir cargos
-\\otimização e modularizacao do codigo
-\\atualização do speech recognition
-\\Limpando a tela após os comandos serem executados
+alterar funcionarios
+demitir funcionarios
+reativar funcionario
+pesquisar todos os funcionarios
+pesquisa de funcionarios inativos
+bloqueio de inserção de cargos ja existentes
+pesquisar cargos
+alterar cargos
+excluir cargos
+otimização e modularizacao do codigo
+atualização do speech recognition
+Limpando a tela após os comandos serem executados
 
 
 <p><div align="center"><b>APRESENTAÇÕES</b></div></p>
