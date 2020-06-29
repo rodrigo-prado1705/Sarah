@@ -153,8 +153,7 @@ def pesquisar_funcionario():
                 edit_funcionario(continuar.split(" ")[1])
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
-
-    if filtro == "cargo":
+    elif filtro == "cargo":
         print('Diga o cargo.')
         cargo = listenSpeech()
 
@@ -193,8 +192,7 @@ def pesquisar_funcionario():
                 edit_funcionario(continuar.split(" ")[1])
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
-
-    if filtro == "inativos":
+    elif filtro == "inativos":
 
         sql = str("SELECT * FROM funcionarios WHERE funcionarios_status = 'inativo';")
         cursor.execute(sql)
@@ -228,8 +226,7 @@ def pesquisar_funcionario():
                 main()
             elif continuar.split(" ")[0] == "ativar":
                 ativar_funcionario(continuar.split(" ")[1])
-
-    if filtro == "todos":
+    elif filtro == "todos":
         sql = str("SELECT * FROM funcionarios WHERE funcionarios_status != 'inativo' ORDER BY funcionarios_nome;")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
@@ -265,6 +262,8 @@ def pesquisar_funcionario():
                 edit_funcionario(continuar.split(" ")[1])
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
+    else:
+        pesquisar_funcionario()
 
 def edit_funcionario(matricula):
 
@@ -422,7 +421,7 @@ def ativar_funcionario(matricula):
 
     clear()
 
-    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
+    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id func = " + matricula + ";")
     cursor.execute(sql)
 
     cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
@@ -469,7 +468,7 @@ def inserir_cargo():
     cargo_nome = listenSpeech()
 
     cursor.execute(""" SELECT cargos_nome FROM cargos WHERE cargos_nome LIKE '%""" + cargo_nome + """%'; """)
-    if cursor.fetchall() != "":
+    if len(cursor.fetchall()) != 0:
         print("Cargo ja cadastrado no Sistema !\n")
         inserir_cargo()
     else:
@@ -612,6 +611,7 @@ def edit_cargo(codigo):
             conn.commit()
 
             print('Dados atualizados com sucesso.')
+            sleep(2)
 
         conn.close()
 
@@ -688,6 +688,11 @@ def listenSpeech():
     except sr.UnknownValueError:
         print('Não entendi o que você disse, repita por favor.')
         command = listenSpeech()
+
+    if command == "voltar":
+        sleep(2)
+        clear()
+        main()
     
     clear()
     return command
@@ -707,6 +712,12 @@ def listenSpeechNoClear():
     except sr.UnknownValueError:
         command = listenSpeechNoClear()
     
+    if command == "voltar":
+        print('Você disse: {0}\n'.format(command))
+        sleep(2)
+        clear()
+        main()
+
     return command
 
 def clear():
