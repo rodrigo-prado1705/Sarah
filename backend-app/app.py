@@ -3,11 +3,14 @@ import os
 import inspect
 import speech_recognition as sr
 import sqlite3
+from sugestao import sugestao
 from time import sleep
 
 r = sr.Recognizer()
 r.pause_threshold = 0.5
 
+
+##### ENVIAR PARA ARQUIVO functions_database
 def inserir_funcionarios():
 
     ## Realizando a conexão com o banco
@@ -23,35 +26,52 @@ def inserir_funcionarios():
 
     for linha in cursor.fetchall():
         print("{0} - {1}".format(linha[0], linha[1]))
-    func_cargo = listenSpeech()
+    voz_cargo = listenSpeech()
 
-    print('Diga o salário do funcionário.')
-    func_salario = listenSpeech()
+    sql = str(" SELECT cargos_id, cargos_nome FROM cargos WHERE cargos_nome = '"+ voz_cargo +"';")
+    cursor.execute(sql)
+    result = cursor.fetchall()
+    if result == "":
+        print("Cargo não encontrado!\n Cadastre o cargo primeiro!")
+        print("Deseja Cadastrar um novo cargo?")
+        confim = listenSpeech()
 
-    confirmacao = ""
-    while confirmacao != "sim" and confirmacao != "não":
-
-        print("Nome: {0};\nCargo: {1};\nSalário: {2}\n".format(func_nome, func_cargo, func_salario))
-        print('Você confirma esses dados? Sim, ou não?')
-        confirmacao = listenSpeech()
-
-        if confirmacao == "sim":
-
-            cursor.execute("""
-            INSERT INTO funcionarios (funcionarios_nome, funcionarios_cargo, funcionarios_salario, funcionarios_status)
-            VALUES (?,?,?,?)
-            """, (func_nome, func_cargo, func_salario, "ativo"))
-
-            conn.commit()
-            print('Dados inseridos com sucesso.')
-        elif confirmacao == "não":
-            print('Dados não inseridos!')
+        if confim == "sim":
+            inserir_cargo()
         else:
-            print('Por favor, diga apenas sim, ou não.\n')
+            main()
+    else:
+        func_cargo = result[0]
+        func_cargo_desc = func_cargo[1]
+        func_cargo = int(func_cargo[0])
+
+        print('Diga o salário do funcionário.')
+        func_salario = listenSpeech()
+
+        confirmacao = ""
+        while confirmacao != "sim" and confirmacao != "não":
+
+            print("Nome: {0};\nCargo: {1};\nSalário: {2}\n".format(func_nome, func_cargo_desc, func_salario))
+            print('Você confirma esses dados? Sim, ou não?')
+            confirmacao = listenSpeech()
+
+            if confirmacao == "sim":
+
+                cursor.execute("""
+                INSERT INTO funcionarios (funcionarios_nome, funcionarios_cargo, funcionarios_salario, funcionarios_status)
+                VALUES (?,?,?,?)
+                """, (func_nome, func_cargo, func_salario, "ativo"))
+
+                conn.commit()
+                print('Dados inseridos com sucesso.')
+            elif confirmacao == "não":
+                print('Dados não inseridos!')
+            else:
+                print('Por favor, diga apenas sim, ou não.\n')
 
 
-    conn.close()
-    return
+        conn.close()
+        return
 
 def pesquisar_funcionario():
     ## Realizando a conexão com o banco
@@ -77,8 +97,10 @@ def pesquisar_funcionario():
         print('Diga o numero da matricula: ')
         matricula = listenSpeech()
 
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
-        ##print(sql)
+        sql = str("SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+                  "FROM funcionarios "
+                  "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+                  "WHERE funcionarios_id = " + matricula + " ORDER BY funcionarios_id;")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -94,7 +116,7 @@ def pesquisar_funcionario():
                 linha = linha.split(', ')
 
                 linha = FormatacaoString(linha)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
                 
         conn.close()
 
@@ -114,11 +136,15 @@ def pesquisar_funcionario():
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
 
-    if filtro == "nome":
+    elif filtro == "nome":
         print('Diga o nome do funcionário.')
         nome = listenSpeech()
 
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_nome LIKE '%" + nome + "%' ;")
+        sql = str(
+            "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+            "FROM funcionarios "
+            "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+            "WHERE funcionarios_nome LIKE '%" + nome + "%' ORDER BY funcionarios_nome;")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -134,7 +160,7 @@ def pesquisar_funcionario():
                 linha = linha.split(', ')
 
                 linha = FormatacaoString(linha)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
 
         conn.close()
 
@@ -153,11 +179,24 @@ def pesquisar_funcionario():
                 edit_funcionario(continuar.split(" ")[1])
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
+
     elif filtro == "cargo":
         print('Diga o cargo.')
-        cargo = listenSpeech()
+        voz_cargo = listenSpeech()
 
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_cargo = '" + cargo + "';")
+        sql = str(" SELECT cargos_id, cargos_nome FROM cargos WHERE cargos_nome = '" + voz_cargo + "';")
+        cursor.execute(sql)
+        result = cursor.fetchall()
+        func_cargo = result[0]
+        func_cargo_desc = func_cargo[1]
+        func_cargo = str(func_cargo[0])
+
+        sql = str(
+            "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+            "FROM funcionarios "
+            "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+            "WHERE funcionarios_cargo = '" + func_cargo + "' ORDER BY funcionarios_nome;")
+
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -173,7 +212,7 @@ def pesquisar_funcionario():
                 linha = linha.split(', ')
 
                 linha = FormatacaoString(linha)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4])
 
         conn.close()
 
@@ -192,9 +231,14 @@ def pesquisar_funcionario():
                 edit_funcionario(continuar.split(" ")[1])
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
-    elif filtro == "inativos":
 
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_status = 'inativo';")
+    elif filtro == "inativos":
+        sql = str(
+            "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+            "FROM funcionarios "
+            "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+            "WHERE funcionarios_status = 'inativo' ORDER BY funcionarios_id;")
+
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -210,7 +254,7 @@ def pesquisar_funcionario():
                 linha = linha.split(', ')
 
                 linha = FormatacaoString(linha)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
 
         conn.close()
 
@@ -226,8 +270,13 @@ def pesquisar_funcionario():
                 main()
             elif continuar.split(" ")[0] == "ativar":
                 ativar_funcionario(continuar.split(" ")[1])
+
     elif filtro == "todos":
-        sql = str("SELECT * FROM funcionarios WHERE funcionarios_status != 'inativo' ORDER BY funcionarios_nome;")
+        sql = str(
+            "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+            "FROM funcionarios "
+            "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+            "WHERE funcionarios_status != 'inativo' ORDER BY funcionarios_nome;")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -243,7 +292,7 @@ def pesquisar_funcionario():
                 linha = linha.split(', ')
 
                 linha = FormatacaoString(linha)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4])
 
         conn.close()
 
@@ -262,6 +311,7 @@ def pesquisar_funcionario():
                 edit_funcionario(continuar.split(" ")[1])
             elif continuar.split(" ")[0] == "demitir":
                 demitir_funcionario(continuar.split(" ")[1])
+
     else:
         pesquisar_funcionario()
 
@@ -272,7 +322,11 @@ def edit_funcionario(matricula):
 
     clear()
 
-    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
+    sql = str(
+        "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+        "FROM funcionarios "
+        "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+        "WHERE funcionarios_id = " + matricula + ";")
     cursor.execute(sql)
 
     cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
@@ -298,7 +352,7 @@ def edit_funcionario(matricula):
 
             while confirmacao != "sim" and confirmacao != "não":
                 print(cabecalho)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
                 confirmacaoRegistro = ""
                 confirmacao = ""
 
@@ -320,7 +374,7 @@ def edit_funcionario(matricula):
 
             while confirmacao != "sim" and confirmacao != "não":
                 print(cabecalho)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
+                print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4])
                 confirmacaoRegistro = ""
                 confirmacao = ""
 
@@ -332,11 +386,19 @@ def edit_funcionario(matricula):
                         print("{0} - {1}".format(linhaCargo[0], linhaCargo[1]))
                     while confirmacaoRegistro != "sim":
                         print("Diga o novo cargo do funcionário: ")
-                        func_cargo = str(listenSpeech())
+                        voz_cargo = str(listenSpeech())
+
+                        sql = str(" SELECT cargos_id, cargos_nome FROM cargos WHERE cargos_nome = '" + voz_cargo.title() + "';")
+                        cursor.execute(sql)
+                        result = cursor.fetchall()
+                        func_cargo = result[0]
+                        func_cargo_desc = func_cargo[1]
+                        func_cargo = str(func_cargo[0])
+
                         print('Confirma a atualização?')
                         confirmacaoRegistro = listenSpeech()
                 elif confirmacao == "não":
-                    func_cargo = str(linha[2]).strip()
+                    func_cargo = str(linha[5]).strip()
 
             confirmacaoRegistro = ""
             confirmacao = ""
@@ -345,7 +407,7 @@ def edit_funcionario(matricula):
 
             while confirmacao != "sim" and confirmacao != "não":
                 print(cabecalho)
-                print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4])
+                print(str(linha[0]) + linha[1] + func_cargo_desc + str(linha[3]) + linha[4])
                 confirmacaoRegistro = ""
                 confirmacao = ""
 
@@ -379,7 +441,11 @@ def demitir_funcionario(matricula):
 
     clear()
 
-    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id = " + matricula + ";")
+    sql = str(
+        "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+        "FROM funcionarios "
+        "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+        "WHERE funcionarios_id = " + matricula + ";")
     cursor.execute(sql)
 
     cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
@@ -398,7 +464,7 @@ def demitir_funcionario(matricula):
 
             linha = FormatacaoString(linha)
             print(cabecalho)
-            print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+            print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
 
             print("Confirma a demissão do funcionário selecionado? (Sim ou Não)")
             confirmacao = listenSpeechNoClear()
@@ -420,8 +486,11 @@ def ativar_funcionario(matricula):
     cursor = conn.cursor()
 
     clear()
-
-    sql = str("SELECT * FROM funcionarios WHERE funcionarios_id func = " + matricula + ";")
+    sql = str(
+        "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
+        "FROM funcionarios "
+        "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
+        "WHERE funcionarios_id = " + matricula + ";")
     cursor.execute(sql)
 
     cabecalho = "Formulário de alteração de dados do funcionário\n" + '_' * 42 \
@@ -440,7 +509,7 @@ def ativar_funcionario(matricula):
 
             linha = FormatacaoString(linha)
             print(cabecalho)
-            print(str(linha[0]) + linha[1] + linha[2] + str(linha[3]) + linha[4] + "\n")
+            print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
 
             print("Deseja reativar o funcionário selecionado? (Sim ou Não)")
             confirmacao = listenSpeechNoClear()
@@ -637,7 +706,7 @@ def deletar_cargo(codigo):
         pesquisar_cargo()
     else:
         pesquisar_cargo()
-
+##############################################
 
 def functionSwitcher(argument):
 
@@ -649,6 +718,8 @@ def functionSwitcher(argument):
         inserir_cargo()
     elif str(argument).lower() == "pesquisar cargo":
         pesquisar_cargo()
+    elif str(argument).lower() == "sugerir filme":
+        sugestao()
     elif str(argument).lower() == "desabilitar sara":
         sys.exit()
     else:
@@ -665,7 +736,9 @@ def main():
     print('2 - Pesquisar funcionário')
     print('3 - Cadastrar Cargo')
     print('4 - Pesquisar Cargo')
-    print('5 - Desabilitar SARAH\n')
+    print('5 - Sugerir Filme')
+    print('6 - Desabilitar SARAH\n')
+
     print('Diga o que deseja fazer:')
     command = listenSpeech()
 
@@ -733,7 +806,7 @@ def FormatacaoString(linha):
 
     matricula = len(str(linha[0]))
     nome = len(linha[1])
-    cargo = len(linha[2])
+    cargo = len(linha[5])
     salario = len(str(linha[3]))
     situacao = len(linha[4])
 
@@ -746,9 +819,9 @@ def FormatacaoString(linha):
     else:
         linha[1] = linha[1][0:40]
     if cargo < 20:
-        linha[2] = linha[2] + (20 - cargo) * " "
+        linha[5] = linha[5] + (20 - cargo) * " "
     else:
-        linha[2] = linha[2][0:20]
+        linha[5] = linha[5][0:20]
     if salario < 10:
         linha[3] = str(linha[3]) + (10 - matricula) * " "
     else:
