@@ -36,7 +36,7 @@ def inserir_funcionarios():
         print("Deseja Cadastrar um novo cargo?")
         confim = listenSpeech()
 
-        if confim == "sim":
+        if confim == "SIM":
             inserir_cargo()
         else:
             main()
@@ -49,23 +49,24 @@ def inserir_funcionarios():
         func_salario = listenSpeech()
 
         confirmacao = ""
-        while confirmacao != "sim" and confirmacao != "não":
+        while confirmacao != "SIM" and confirmacao != "NÃO":
 
             print("Nome: {0};\nCargo: {1};\nSalário: {2}\n".format(func_nome, func_cargo_desc, func_salario))
             print('Você confirma esses dados? Sim, ou não?')
             confirmacao = listenSpeech()
 
-            if confirmacao == "sim":
+            if confirmacao == "SIM":
 
                 cursor.execute("""
                 INSERT INTO funcionarios (funcionarios_nome, funcionarios_cargo, funcionarios_salario, funcionarios_status)
                 VALUES (?,?,?,?)
-                """, (func_nome, func_cargo, func_salario, "ativo"))
+                """, (func_nome, func_cargo, func_salario, "ATIVO"))
 
                 conn.commit()
                 print('Dados inseridos com sucesso.')
-            elif confirmacao == "não":
+            elif confirmacao == "NÃO":
                 print('Dados não inseridos!')
+                inserir_funcionarios()
             else:
                 print('Por favor, diga apenas sim, ou não.\n')
 
@@ -92,7 +93,7 @@ def pesquisar_funcionario():
     print('Diga o filtro desejado.')
     filtro = listenSpeech()
 
-    if filtro == "matrícula":
+    if filtro == "MATRÍCULA":
 
         print('Diga o numero da matricula: ')
         matricula = listenSpeech()
@@ -120,23 +121,7 @@ def pesquisar_funcionario():
                 
         conn.close()
 
-        print('_' * 42)
-        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
-        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
-
-        continuar = ""
-        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
-            continuar = listenSpeechNoClear()
-
-            if continuar == "voltar":
-                main()
-            elif continuar.split(" ")[0] == "selecionar":
-                edit_funcionario(continuar.split(" ")[1])
-            elif continuar.split(" ")[0] == "demitir":
-                demitir_funcionario(continuar.split(" ")[1])
-
-    elif filtro == "nome":
+    elif filtro == "NOME":
         print('Diga o nome do funcionário.')
         nome = listenSpeech()
 
@@ -164,38 +149,28 @@ def pesquisar_funcionario():
 
         conn.close()
 
-        print('_' * 42)
-        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
-        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
+    elif filtro == "CARGO":
+        sql = str(" SELECT cargos_id, cargos_nome from cargos;")
+        cursor.execute(sql)
+        result = cursor.fetchall()
 
-        continuar = ""
-        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
-            continuar = listenSpeechNoClear()
-
-            if continuar == "voltar":
-                main()
-            elif continuar.split(" ")[0] == "selecionar":
-                edit_funcionario(continuar.split(" ")[1])
-            elif continuar.split(" ")[0] == "demitir":
-                demitir_funcionario(continuar.split(" ")[1])
-
-    elif filtro == "cargo":
         print('Diga o cargo.')
+        for linha in result:
+            print("{0} - {1}".format(linha[0], linha[1]))
+
         voz_cargo = listenSpeech()
 
         sql = str(" SELECT cargos_id, cargos_nome FROM cargos WHERE cargos_nome = '" + voz_cargo + "';")
         cursor.execute(sql)
         result = cursor.fetchall()
         func_cargo = result[0]
-        func_cargo_desc = func_cargo[1]
         func_cargo = str(func_cargo[0])
 
         sql = str(
             "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
             "FROM funcionarios "
             "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
-            "WHERE funcionarios_cargo = '" + func_cargo + "' ORDER BY funcionarios_nome;")
+            "WHERE cargos_id = '" + func_cargo + "' ORDER BY funcionarios_nome;")
 
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
@@ -216,28 +191,12 @@ def pesquisar_funcionario():
 
         conn.close()
 
-        print('_' * 42)
-        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
-        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
-
-        continuar = ""
-        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
-            continuar = listenSpeechNoClear()
-
-            if continuar == "voltar":
-                main()
-            elif continuar.split(" ")[0] == "selecionar":
-                edit_funcionario(continuar.split(" ")[1])
-            elif continuar.split(" ")[0] == "demitir":
-                demitir_funcionario(continuar.split(" ")[1])
-
-    elif filtro == "inativos":
+    elif filtro == "INATIVOS":
         sql = str(
             "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
             "FROM funcionarios "
             "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
-            "WHERE funcionarios_status = 'inativo' ORDER BY funcionarios_id;")
+            "WHERE funcionarios_status = 'INATIVO' ORDER BY funcionarios_id;")
 
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
@@ -263,20 +222,23 @@ def pesquisar_funcionario():
         print("Caso queira voltar ao menu principal, diga 'Voltar'.")
 
         continuar = ""
-        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
+        while continuar != "VOLTAR" and continuar.split(" ")[0] != "ATIVAR":
             continuar = listenSpeechNoClear()
+            try:
+                if continuar == "VOLTAR":
+                    main()
+                elif continuar.split(" ")[0] == "ATIVAR":
+                    ativar_funcionario(str(int(continuar.split(" ")[1])))
+            except:
+                continuar = ""
+                print("Diga somente o número da matrícula do funcionário que deseja selecionar.")
 
-            if continuar == "voltar":
-                main()
-            elif continuar.split(" ")[0] == "ativar":
-                ativar_funcionario(continuar.split(" ")[1])
-
-    elif filtro == "todos":
+    elif filtro == "TODOS":
         sql = str(
             "SELECT funcionarios_id, funcionarios_Nome, funcionarios_cargo, funcionarios_salario, funcionarios_status, cargos_nome "
             "FROM funcionarios "
             "INNER JOIN cargos ON funcionarios.funcionarios_cargo = cargos.cargos_id "
-            "WHERE funcionarios_status != 'inativo' ORDER BY funcionarios_nome;")
+            "WHERE funcionarios_status <> 'INATIVO' ORDER BY funcionarios_nome;")
         cursor.execute(sql)
         cabecalho = str("MATRÍCULA NOME                                    CARGO               SALÁRIO   SITUAÇÃO  ")
         print(cabecalho)
@@ -296,24 +258,27 @@ def pesquisar_funcionario():
 
         conn.close()
 
-        print('_' * 42)
-        print("Caso queira editar algum dos registros, diga 'Selecionar <número da matricula>';")
-        print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
-        print("Caso queira voltar ao menu principal, diga 'Voltar'.")
-
-        continuar = ""
-        while continuar != "voltar" and continuar.split(" ")[0] != "selecionar":
-            continuar = listenSpeechNoClear()
-
-            if continuar == "voltar":
-                main()
-            elif continuar.split(" ")[0] == "selecionar":
-                edit_funcionario(continuar.split(" ")[1])
-            elif continuar.split(" ")[0] == "demitir":
-                demitir_funcionario(continuar.split(" ")[1])
-
     else:
         pesquisar_funcionario()
+
+    print('_' * 42)
+    print("Caso queira editar algum dos registros, diga 'Alterar <número da matricula>';")
+    print("Caso queira demitir um funcionário, diga 'Demitir <número da matricula>';")
+    print("Caso queira voltar ao menu principal, diga 'Voltar'.")
+
+    continuar = ""
+    while continuar != "VOLTAR" and continuar.split(" ")[0] != "ALTERAR" and continuar.split(" ")[0] != "DEMITIR":
+        continuar = listenSpeechNoClear()
+        try:
+            if continuar == "VOLTAR":
+                main()
+            elif continuar.split(" ")[0] == "ALTERAR":
+                edit_funcionario(str(int(continuar.split(" ")[1])))
+            elif continuar.split(" ")[0] == "DEMITIR":
+                demitir_funcionario(str(int(continuar.split(" ")[1])))
+        except:
+            continuar = ""
+            print("Diga somente o número da matrícula do funcionário que deseja selecionar.")
 
 def edit_funcionario(matricula):
 
@@ -350,7 +315,7 @@ def edit_funcionario(matricula):
             func_cargo = ""
             func_salario = ""
 
-            while confirmacao != "sim" and confirmacao != "não":
+            while confirmacao != "SIM" and confirmacao != "NÃO":
                 print(cabecalho)
                 print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
                 confirmacaoRegistro = ""
@@ -358,13 +323,13 @@ def edit_funcionario(matricula):
 
                 print('Deseja alterar o nome do funcionário? (Sim ou Não)')
                 confirmacao = listenSpeechNoClear()
-                if confirmacao == "sim":
-                    while confirmacaoRegistro != "sim":
+                if confirmacao == "SIM":
+                    while confirmacaoRegistro != "SIM" and confirmacaoRegistro != "NÃO":
                         print("Diga o novo nome do funcionário: ")
                         func_nome = str(listenSpeechNoClear())
                         print('Confirma a atualização?')
                         confirmacaoRegistro = listenSpeech()
-                elif confirmacao == "não":
+                elif confirmacao == "NÃO":
                     func_nome = str(linha[1]).strip()
             
             confirmacaoRegistro = ""
@@ -372,7 +337,7 @@ def edit_funcionario(matricula):
             linha[1] = func_nome
             linha = FormatacaoString(linha)
 
-            while confirmacao != "sim" and confirmacao != "não":
+            while confirmacao != "SIM" and confirmacao != "NÃO":
                 print(cabecalho)
                 print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4])
                 confirmacaoRegistro = ""
@@ -380,11 +345,11 @@ def edit_funcionario(matricula):
 
                 print('Deseja trocar o cargo do funcionário? (Sim ou Não)')
                 confirmacao = listenSpeechNoClear()
-                if confirmacao == "sim":
+                if confirmacao == "SIM":
                     cursor.execute(""" SELECT * FROM cargos ORDER BY cargos_nome; """)
                     for linhaCargo in cursor.fetchall():
                         print("{0} - {1}".format(linhaCargo[0], linhaCargo[1]))
-                    while confirmacaoRegistro != "sim":
+                    while confirmacaoRegistro != "SIM" and confirmacaoRegistro != "NÃO":
                         print("Diga o novo cargo do funcionário: ")
                         voz_cargo = str(listenSpeech())
 
@@ -397,7 +362,7 @@ def edit_funcionario(matricula):
 
                         print('Confirma a atualização?')
                         confirmacaoRegistro = listenSpeech()
-                elif confirmacao == "não":
+                elif confirmacao == "NÃO":
                     func_cargo = str(linha[5]).strip()
 
             confirmacaoRegistro = ""
@@ -405,7 +370,7 @@ def edit_funcionario(matricula):
             linha[2] = func_cargo
             linha = FormatacaoString(linha)
 
-            while confirmacao != "sim" and confirmacao != "não":
+            while confirmacao != "SIM" and confirmacao != "NÃO":
                 print(cabecalho)
                 print(str(linha[0]) + linha[1] + func_cargo_desc + str(linha[3]) + linha[4])
                 confirmacaoRegistro = ""
@@ -413,13 +378,13 @@ def edit_funcionario(matricula):
 
                 print('Deseja alterar o salário do funcionário? (Sim ou Não)')
                 confirmacao = listenSpeechNoClear()
-                if confirmacao == "sim":
-                    while confirmacaoRegistro != "sim":
+                if confirmacao == "SIM":
+                    while confirmacaoRegistro != "SIM" and confirmacaoRegistro != "NÃO":
                         print("Diga o novo salário do funcionário: ")
                         func_salario = str(listenSpeech())
                         print('Confirma a atualização?')
                         confirmacaoRegistro = listenSpeech()
-                elif confirmacao == "não":
+                elif confirmacao == "NÃO":
                     func_salario = str(linha[3]).strip()
 
             sql = """
@@ -432,6 +397,8 @@ def edit_funcionario(matricula):
             conn.commit()
 
             print('Dados atualizados com sucesso.')
+            sleep(2)
+            clear()
 
         conn.close()
 
@@ -467,14 +434,16 @@ def demitir_funcionario(matricula):
             print(str(linha[0]) + linha[1] + linha[5] + str(linha[3]) + linha[4] + "\n")
 
             print("Confirma a demissão do funcionário selecionado? (Sim ou Não)")
-            confirmacao = listenSpeechNoClear()
-            if confirmacao == "sim":
-                sql = """
-                UPDATE funcionarios SET
-                funcionarios_status = 'inativo'
-                WHERE funcionarios_id = """ + matricula + ""
-                cursor.execute(sql)
-                conn.commit()
+            confirmacao = ""
+            while confirmacao != "SIM" and confirmacao != "NÃO":
+                confirmacao = listenSpeechNoClear()
+                if confirmacao == "SIM":
+                    sql = """
+                    UPDATE funcionarios SET
+                    funcionarios_status = 'INATIVO'
+                    WHERE funcionarios_id = """ + matricula + ""
+                    cursor.execute(sql)
+                    conn.commit()
 
     print('Funcionário demitido com sucesso !')
     pesquisar_funcionario()
@@ -513,10 +482,10 @@ def ativar_funcionario(matricula):
 
             print("Deseja reativar o funcionário selecionado? (Sim ou Não)")
             confirmacao = listenSpeechNoClear()
-            if confirmacao == "sim":
+            if confirmacao == "SIM":
                 sql = """
                 UPDATE funcionarios SET
-                funcionarios_status = 'ativo'
+                funcionarios_status = 'ATIVO'
                 WHERE funcionarios_id = """ + matricula + ""
                 cursor.execute(sql)
                 conn.commit()
@@ -533,31 +502,31 @@ def inserir_cargo():
     ## Criando um cursor, utilizado para executar as funções do banco
     cursor = conn.cursor()
 
-    print('Diga o nome do cargo.')
-    cargo_nome = listenSpeech()
+    confirmacao = ""
+    while confirmacao != "SIM" and confirmacao != "NÃO":
+        print('Diga o nome do cargo.')
+        cargo_nome = listenSpeech()
 
-    cursor.execute(""" SELECT cargos_nome FROM cargos WHERE cargos_nome LIKE '%""" + cargo_nome + """%'; """)
-    if len(cursor.fetchall()) != 0:
-        print("Cargo ja cadastrado no Sistema !\n")
-        inserir_cargo()
-    else:
-        confirmacao = ""
-
-
-    while confirmacao != "sim" and confirmacao != "não":
+        cursor.execute(""" SELECT cargos_nome FROM cargos WHERE cargos_nome LIKE '%""" + cargo_nome + """%'; """)
+        if len(cursor.fetchall()) != 0:
+            print("Cargo ja cadastrado no Sistema !\n")
+            inserir_cargo()
+        else:
+            confirmacao = ""
 
         print("Cargo: {0}\n".format(cargo_nome))
         print('Você confirma esses dados? Sim, ou não?')
         confirmacao = listenSpeech()
 
-        if confirmacao == "sim":
-           cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
-           conn.commit()
-           print('Dados inseridos com sucesso.')
-        elif confirmacao == "não":
-           print('Dados não inseridos!')
+        if confirmacao == "SIM":
+            cursor.execute(""" INSERT INTO cargos (cargos_nome) VALUES (?) """, (cargo_nome,))
+            conn.commit()
+            print('Dados inseridos com sucesso.')
+        elif confirmacao == "NÃO":
+            print('Dados não inseridos!')
+            inserir_cargo()
         else:
-           print('Por favor, diga apenas sim, ou não.\n')
+            print('Por favor, diga apenas sim, ou não.\n')
     
     conn.close()
     return
@@ -609,12 +578,12 @@ def pesquisar_cargo():
     print("Caso queira voltar ao menu principal, diga 'Voltar'.")
 
     continuar = ""
-    while continuar != "voltar" and continuar.split(" ")[0] != "alterar":
+    while continuar != "VOLTAR" and continuar.split(" ")[0] != "ALTERAR":
         continuar = listenSpeechNoClear()
 
-        if continuar == "voltar":
+        if continuar == "VOLTAR":
             main()
-        elif continuar.split(" ")[0] == "alterar":
+        elif continuar.split(" ")[0] == "ALTERAR":
             edit_cargo(continuar.split(" ")[1])
         elif continuar.split(" ")[0] == "deletar":
             deletar_cargo(continuar.split(" ")[1])
@@ -655,7 +624,7 @@ def edit_cargo(codigo):
             confirmacao = ""
             cargo_nome = ""
 
-            while confirmacao != "sim" and confirmacao != "não":
+            while confirmacao != "SIM" and confirmacao != "NÃO":
                 print(cabecalho)
                 print(str(linha[0]) + linha[1]+"\n")
                 confirmacaoRegistro = ""
@@ -663,13 +632,13 @@ def edit_cargo(codigo):
 
                 print('Deseja alterar cargo? (Sim ou Não)')
                 confirmacao = listenSpeechNoClear()
-                if confirmacao == "sim":
-                    while confirmacaoRegistro != "sim":
+                if confirmacao == "SIM":
+                    while confirmacaoRegistro != "SIM":
                         print("Diga o novo nome do cargo: ")
                         cargo_nome = str(listenSpeechNoClear())
                         print('Confirma a atualização? (Sim ou Não)')
                         confirmacaoRegistro = listenSpeech()
-                elif confirmacao == "não":
+                elif confirmacao == "NÃO":
                     cargo_nome = str(linha[1]).strip()
 
             sql = """
@@ -693,7 +662,7 @@ def deletar_cargo(codigo):
     print("Atenção ao concordar com a exclusão os dados não poderam ser recuperados.")
     print("Deseja mesmo deletar este cargo? (Sim ou Não)")
     confirmacao = listenSpeechNoClear()
-    if confirmacao == "sim":
+    if confirmacao == "SIM":
 
         cursor.execute("""
         DELETE FROM cargos
@@ -750,34 +719,34 @@ def listenSpeech():
         r.adjust_for_ambient_noise(source, duration=0.5)
 
     with sr.Microphone() as source:
-        print('Escutando...\n')
+        #print('Escutando...\n')
         audio = r.listen(source)
-        print('Processando...\n')
+        #print('Processando...\n')
     try:
         command = r.recognize_google(audio, language='pt-BR')
-        print('Você disse: {0}\n'.format(command))
+        print('Você disse: {0}\n'.format(str(command).upper()))
     # loop back to continue to listen for commands if unrecognizable speech
     # is received
     except sr.UnknownValueError:
         print('Não entendi o que você disse, repita por favor.')
         command = listenSpeech()
 
-    if command == "voltar":
+    if command == "VOLTAR":
         sleep(2)
         clear()
         main()
     
     clear()
-    return command
+    return str(command).upper()
 
 def listenSpeechNoClear():
     with sr.Microphone() as source:
         r.adjust_for_ambient_noise(source, duration=0.5)
 
     with sr.Microphone() as source:
-        print('Escutando...  \r')
+        #print('Escutando...  \r')
         audio = r.listen(source)
-        print('Processando...\r')
+        #print('Processando...\r')
     try:
         command = r.recognize_google(audio, language='pt-BR')
     # loop back to continue to listen for commands if unrecognizable speech
@@ -785,13 +754,13 @@ def listenSpeechNoClear():
     except sr.UnknownValueError:
         command = listenSpeechNoClear()
     
-    if command == "voltar":
-        print('Você disse: {0}\n'.format(command))
+    if command == "VOLTAR":
+        print('Você disse: {0}\n'.format(str(command).upper()))
         sleep(2)
         clear()
         main()
 
-    return command
+    return str(command).upper()
 
 def clear():
 
