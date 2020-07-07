@@ -1,11 +1,15 @@
 <p><div align="center"><b>INTEGRANTES</b></div></p>
 
 <div align="center">Lucas Aparecido Alves da Silva</div>
+<div align="center">https://www.linkedin.com/in/lucas-alves-50306b118/</div>
 <div align="center">Maximiles Silva Barcelos Ribeiro</div>
+<div align="center">https://www.linkedin.com/in/maxx-barcelos-aaa106b2/</div>
 <div align="center">Paulo Messias Soares da Silva</div>
+<div align="center">https://www.linkedin.com/in/paulo-messias-ab952993/?originalSubdomain=br</div>
 <div align="center">Rodrigo Amâncio do Prado Tenório</div>
+<div align="center">https://www.linkedin.com/in/rodrigo-am%C3%A2ncio-do-prado-ten%C3%B3rio-a56641174</div>
 <div align="center">Mateus Costa Luz</div>
-
+<div align="center">https://www.linkedin.com/in/mateuscostaluz/</div>
 
 
 <p><div align="center"><b>1º ENTREGA - SARAH - ASSISTENTE VIRTUAL DE RH </b></div></p>
