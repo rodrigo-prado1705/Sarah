@@ -5,12 +5,11 @@ import speech_recognition as sr
 import sqlite3
 from sugestao import sugestao
 from time import sleep
+from utils import *
 
 r = sr.Recognizer()
 r.pause_threshold = 0.5
 
-
-##### ENVIAR PARA ARQUIVO functions_database
 def inserir_funcionarios():
 
     ## Realizando a conexão com o banco
@@ -690,7 +689,7 @@ def functionSwitcher(argument):
     elif str(argument).lower() == "sugerir filme":
         sugestao()
     elif str(argument).lower() == "desabilitar sara":
-        sys.exit()
+        os._exit(0)
     else:
         print("Função Não Implementada\n")
 
@@ -761,46 +760,6 @@ def listenSpeechNoClear():
         main()
 
     return str(command).upper()
-
-def clear():
-
-    sleep(2)
-    if os.name == 'nt': 
-        _ = os.system('cls') 
-   
-    else: 
-        _ = os.system('clear')
-
-def FormatacaoString(linha):
-
-    matricula = len(str(linha[0]))
-    nome = len(linha[1])
-    cargo = len(linha[5])
-    salario = len(str(linha[3]))
-    situacao = len(linha[4])
-
-    if matricula < 10:
-        linha[0] = str(linha[0]) + (10 - matricula) * " "
-    else:
-        linha[0] = linha[0][0:10]
-    if nome < 40:
-        linha[1] = linha[1] + (40 - nome) * " "
-    else:
-        linha[1] = linha[1][0:40]
-    if cargo < 20:
-        linha[5] = linha[5] + (20 - cargo) * " "
-    else:
-        linha[5] = linha[5][0:20]
-    if salario < 10:
-        linha[3] = str(linha[3]) + (10 - matricula) * " "
-    else:
-        linha[3] = linha[3][0:10]
-    if situacao < 10:
-        linha[4] = linha[4] + (10 - situacao) * " "
-    else:
-        linha[4] = linha[4][0:10]
-
-    return linha
 
 while True:
 
