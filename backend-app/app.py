@@ -584,7 +584,7 @@ def pesquisar_cargo():
             main()
         elif continuar.split(" ")[0] == "ALTERAR":
             edit_cargo(continuar.split(" ")[1])
-        elif continuar.split(" ")[0] == "deletar":
+        elif continuar.split(" ")[0] == "DELETAR":
             deletar_cargo(continuar.split(" ")[1])
 
 def edit_cargo(codigo):
